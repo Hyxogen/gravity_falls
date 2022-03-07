@@ -79,19 +79,3 @@ void	hexlink(hexagon_t *hex)
 		hex->sides[5] = hex->sides[0]->sides[4];
 	}
 }
-
-/*
-void	pgrid(hexagon_t *hex)
-{
-	if (!hex)
-		return ;
-	printf("------Hex: %p-------\n", hex);
-	printf("Up: %p\n", hex->sides[0]);
-	printf("Up-right: %p\n", hex->sides[1]);
-	printf("Down-right: %p\n", hex->sides[2]);
-	printf("Down: %p\n", hex->sides[3]);
-	printf("Down-left: %p\n", hex->sides[4]);
-	printf("Up-left: %p\n", hex->sides[5]);
-	pgrid(hex->sides[3]);
-}
-*/

@@ -18,4 +18,8 @@ void		hexfill(hexagon_t *hex);
 void		hexlink(hexagon_t *hex);
 void		pgrid(hexagon_t *hex);
 
+hexagon_t	*gridrotate(hexagon_t *grid, unsigned int rot);
+hexagon_t	*gridrotate_once(hexagon_t *hex);
+void		linerotate(hexagon_t *hex);
+
 #endif
