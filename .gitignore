@@ -1,0 +1,6 @@
+bin/
+.vscode/
+cluster
+drawing
+*.out
+field
