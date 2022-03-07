@@ -5,14 +5,12 @@
 int main(void) {
 	screen_t screen;
 
-	scr_new(&screen, 10, 10, 1, term_proc);
-	ib_clearb(&screen.buffer, '@');
-	ib_putb(&screen.buffer, 2, 2, 'a');
+	scr_new(&screen, 20, 20, 1, term_proc);
+	ib_clearb(&screen.buffer, '.');
+	printf("\n\n\n");
+	_render_hex(&screen.buffer, 10, 10, '#');
+	_render_hex(&screen.buffer, 12, 12, '%');
 	src_flush(&screen);
-	while (1) {
-		scr_clear(NULL);
-		printf("a\n");
-		sleep(1);
-	}
+	pause();
 	return 0;
 }

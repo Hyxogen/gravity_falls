@@ -10,6 +10,7 @@ void term_proc(const imbuffer_t *buffer, void *usr_ptr) {
 	width = buffer->width;
 	height = buffer->height;
 	scr_clear(NULL);
+	printf("\n\n\n");
 	for (y = 0; y < height; y++) {
 		for (x = 0; x < width; x++)
 			printf("%c", buffer->buffer[x + y * width]);
