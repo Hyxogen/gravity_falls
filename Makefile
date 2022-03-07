@@ -11,7 +11,7 @@ INC_DIR					:= src
 INT_DIR					:= bin
 OUT_DIR					:= $(INT_DIR)
 
-SRC_FILES				:= $(SRC_DIR)/main.c $(SRC_DIR)/gfx/screen.c $(SRC_DIR)/gfx/image_buffer.c $(SRC_DIR)/util/memory.c $(SRC_DIR)/gfx/renderer.c
+SRC_FILES				:= $(SRC_DIR)/main.c $(SRC_DIR)/gfx/screen.c $(SRC_DIR)/gfx/image_buffer.c $(SRC_DIR)/util/memory.c $(SRC_DIR)/gfx/renderer.c $(SRC_DIR)/map/grid.c
 
 BLACK					:="\033[0;30m"
 RED						:="\033[0;31m"

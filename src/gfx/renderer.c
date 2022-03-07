@@ -33,14 +33,14 @@ void render_hex(imbuffer_t *buffer, int x , int y, const hexagon_t *hex) {
 	if (hex == NULL)
 		return;
 	_render_hex(buffer, x, y, '@');
-	render_hex(buffer, x, y - 2, hex->sides[0]);
-	render_hex(buffer, x + 2, y - 2, hex->sides[1]);
+	/*render_hex(buffer, x, y - 2, hex->sides[0]);
+	render_hex(buffer, x + 2, y - 2, hex->sides[1]);*/
 	render_hex(buffer, x + 2, y, hex->sides[2]);
 	render_hex(buffer, x + 2, y + 2, hex->sides[3]);
 	render_hex(buffer, x, y + 2, hex->sides[4]);
-	render_hex(buffer, x - 2, y + 2, hex->sides[5]);
+	/*render_hex(buffer, x - 2, y + 2, hex->sides[5]);*/
 }
 
 void render_map(imbuffer_t *buffer, const hexagon_t *map) {
-	render_hex(buffer, 2, 2, map);
+	render_hex(buffer, 10, 10, map);
 }
