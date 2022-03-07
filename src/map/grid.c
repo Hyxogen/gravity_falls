@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include "stdlib.h"
 #include "map.h"
 
 hexagon_t	*getgrid(int len)
