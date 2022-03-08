@@ -23,7 +23,7 @@ int	win_row(hexagon_t *hex, int side)
 
 int	isfull(hexagon_t *head)
 {
-	if (!hexiter(head, isempty))
+	if (!hexiter(head, isempty, 0))
 		return (1);
 	return (0);
 }
@@ -49,12 +49,12 @@ int	checkboard(hexagon_t *head, ...)
 		va_end(ap);
 		return (0);
 	}
-	ret += hexiter() checkcolor(head, colors[0]);
-	ret += checkcolor(head, colors[1]);
+	ret += hexiter(head, checkcolor, colors[0]);
+	ret += hexiter(head, checkcolor, colors[1]);
 	return (ret);
 }
 
 int	checkcolor(hexagon_t *head, int color)
 {
-	hex
+	return (0);
 }
