@@ -29,14 +29,16 @@ hexagon_t	*get_first_empty(hexagon_t *hex);
 hexagon_t	*get_first_color(hexagon_t *hex);
 hexagon_t	*get_column(hexagon_t *head, int column);
 int			hexiter(hexagon_t *head, int (*f)(hexagon_t *, void *), void *param);
+int			del(hexagon_t *hex, void *param);
 
 	//	grid.c
-hexagon_t	*getgrid(int len);
+hexagon_t	*gridcreate(int len);
 hexagon_t	*hexrow(hexagon_t *orig, int side, int len);
 void		hexrows(hexagon_t *hex, int height);
 void		hexfill(hexagon_t *hex);
 void		hexlinkrow(hexagon_t *hex, int side);
 void		hexlink(hexagon_t *hex);
+void		griddestroy(hexagon_t *head);
 
 	//	win.c
 int			isfull(hexagon_t *head);
@@ -49,7 +51,7 @@ int			checkcolor(hexagon_t *head, void *color);
 	//	drop.c
 void		dropall(hexagon_t *head);
 void		dropcolumn(hexagon_t *hex);
-int			droptile(hexagon_t *hex, int column, int color);
+int			droptile(hexagon_t *head, int column, int color);
 
 	//	rotate.c
 void		gridrotate_once(hexagon_t **head);

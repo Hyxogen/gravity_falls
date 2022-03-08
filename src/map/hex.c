@@ -84,3 +84,10 @@ int	hexiter(hexagon_t *head, int (*f)(hexagon_t *, void *), void *param)
 		ret += hexiter(next, f, param);
 	return (ret);
 }
+
+int	del(hexagon_t *hex, void *param)
+{
+	(void)param;
+	free(hex);
+	return (0);
+}

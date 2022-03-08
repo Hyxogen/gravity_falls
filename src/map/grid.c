@@ -1,6 +1,6 @@
 #include "map.h"
 
-hexagon_t	*getgrid(int len)
+hexagon_t	*gridcreate(int len)
 {
 	hexagon_t	*hex;
 
@@ -75,4 +75,9 @@ void	hexlink(hexagon_t *hex)
 		hex->sides[0]->sides[4]->sides[2] = hex;
 		hex->sides[5] = hex->sides[0]->sides[4];
 	}
+}
+
+void	griddestroy(hexagon_t *head)
+{
+	hexiter(head, del, 0);
 }

@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
 	player_send_packet(&packet, &player);
 	if (argc != 2)
 		return EXIT_FAILURE;
-	// hex = getgrid(atoi(argv[1]));
+	// hex = gridcreate(atoi(argv[1]));
 	// gf_assert(hex);
 	// win_setptr(&win, hex);
 	handle = gfx_init();

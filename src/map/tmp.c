@@ -8,7 +8,7 @@ int	main(void)
 	hexagon_t	*head;
 
 	checkboard(0, BLUE, RED);
-	head = getgrid(3);
+	head = gridcreate(3);
 	printf("%d\n", droptile(head, -2, 1));
 	printf("%d\n", droptile(head, -1, 2));
 	printf("%d\n", droptile(head, 0, 3));
@@ -22,6 +22,7 @@ int	main(void)
 	printf("================================\n");
 	pgrid(head->sides[2]->sides[2]);
 	*/
+	griddestroy(head);
 }
 
 void	pgrid(hexagon_t *hex)
