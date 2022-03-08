@@ -8,7 +8,7 @@ hexagon_t	*getgrid(int len)
 	hex->sides[2] = hexrow(hex, 2, len - 1);
 	hex->sides[4] = hexrow(hex, 4, len - 1);
 	hexrows(hex, 2 * (len - 1));
-	hexfill(hex);
+	hexfill(hex->sides[3]);
 	return (hex);
 }
 
@@ -53,15 +53,24 @@ void	hexrows(hexagon_t *hex, int height)
 
 void	hexfill(hexagon_t *hex)
 {
+	if (!hex)
+		return ;
 	hexlink(hex);
-	if (hex->sides[1])
-		if (hex->sides[1]->sides[3])
-			hexfill(hex->sides[1]->sides[3]);
-	if (hex->sides[5])
-		if (hex->sides[5]->sides[3])
-			hexfill(hex->sides[5]->sides[3]);
+	hexlinkrow(hex, 1);
+	hexlinkrow(hex, 5);
 	if (hex->sides[3])
 		hexfill(hex->sides[3]);
+}
+
+void	hexlinkrow(hexagon_t *hex, int side)
+{
+	while (hex->sides[side])
+	{
+		if (!hex->sides[side]->sides[3])
+			return ;
+		hex = hex->sides[side]->sides[3];
+		hexlink(hex);
+	}
 }
 
 void	hexlink(hexagon_t *hex)
@@ -78,4 +87,20 @@ void	hexlink(hexagon_t *hex)
 		hex->sides[0]->sides[4]->sides[2] = hex;
 		hex->sides[5] = hex->sides[0]->sides[4];
 	}
+}
+
+void	pgrid(hexagon_t *hex)
+{
+	if (!hex)
+		return ;
+	printf("------Hex: %p-------\n", (void*) hex);
+	printf("Up: %p\n", (void*) hex->sides[0]);
+	printf("Up-right: %p\n", (void*) hex->sides[1]);
+	printf("Down-right: %p\n", (void*) hex->sides[2]);
+	printf("Down: %p\n", (void*) hex->sides[3]);
+	printf("Down-left: %p\n", (void*) hex->sides[4]);
+	printf("Up-left: %p\n", (void*) hex->sides[5]);
+	printf("Color: 0x%08X\n", hex->color);
+	printf("\n");
+	pgrid(hex->sides[3]);
 }

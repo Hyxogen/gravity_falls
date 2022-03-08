@@ -3,6 +3,7 @@
 
 #include <signal.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define gf_abort(...) fprintf(stderr, __VA_ARGS__); abort();
 

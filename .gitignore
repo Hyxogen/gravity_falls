@@ -4,3 +4,4 @@ cluster
 drawing
 *.out
 field
+*.d

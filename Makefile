@@ -7,11 +7,17 @@ CC						:= clang
 LINK_CMD				:= clang
 
 SRC_DIR					:= src
-INC_DIR					:= src
 INT_DIR					:= bin
+VEN_DIR					:= vendor
+MLX_DIR					:= $(VEN_DIR)/minilibx-macos
+INC_DIR					:= -I src -I $(MLX_DIR)
 OUT_DIR					:= $(INT_DIR)
 
-SRC_FILES				:= $(SRC_DIR)/main.c $(SRC_DIR)/gfx/screen.c $(SRC_DIR)/gfx/image_buffer.c $(SRC_DIR)/util/memory.c $(SRC_DIR)/gfx/renderer.c $(SRC_DIR)/map/grid.c
+MLX_LIB					:= $(MLX_DIR)/libmlx.a
+
+SRC_FILES				:= $(SRC_DIR)/main.c $(SRC_DIR)/gfx/image_buffer.c \
+							$(SRC_DIR)/util/memory.c $(SRC_DIR)/gfx/window.c $(SRC_DIR)/gfx/renderer.c \
+							$(SRC_DIR)/map/grid.c $(SRC_DIR)/map/play.c
 
 BLACK					:="\033[0;30m"
 RED						:="\033[0;31m"
@@ -71,17 +77,21 @@ DEP_FILES				:= $(patsubst $(SRC_DIR)/%,$(OUT_DIR)/%.d,$(basename $(SRC_FILES)))
 
 all: $(TARGET)
 
-$(TARGET): $(OBJ_FILES)
+$(TARGET): $(OBJ_FILES) $(MLX_LIB)
 	@printf $(LINK_COLOR)Linking$(RESET)\ $(OBJECT_COLOR)$(notdir $@)$(RESET)\\n
-	$(SILENT)$(LINK_CMD) $(LDFLAGS) -o $(TARGET) $(OBJ_FILES)
+	$(SILENT)$(LINK_CMD) $(LDFLAGS) -o $(TARGET) $(OBJ_FILES) -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
 
 $(OUT_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	@printf $(COMPILE_COLOR)Compiling$(RESET)\ $(notdir $<)\\n
-	$(SILENT)$(CC) $(CFLAGS) -c $< -o $@ -MMD -I $(INC_DIR)
+	$(SILENT)$(CC) $(CFLAGS) -c $< -o $@ -MMD $(INC_DIR)
+
+$(MLX_LIB):
+	$(SILENT)${MAKE} -C $(MLX_DIR)
 
 clean:
 	$(SILENT)rm -rf $(INT_DIR)
+	$(SILENT)${MAKE} -C $(MLX_DIR) clean
 
 re: clean all
 

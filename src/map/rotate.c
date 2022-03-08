@@ -1,78 +1,57 @@
 #include "map.h"
 
-hexagon_t	*gridrotate(hexagon_t *grid, unsigned int rot)
+hexagon_t	*gridrotate(hexagon_t *head, unsigned int rot)
 {
-	if (grid)
+	if (rot > 5)
+		rot = rot % 6;
+	if (head)
 		while (rot--)
-			grid = gridrotate_once(grid);
-	return (grid);
+			head = gridrotate_once(head);
+	return (head);
 }
 
-hexagon_t	*gridrotate_once(hexagon_t *hex)
+hexagon_t	*gridrotate_once(hexagon_t *head)
 {
-	hexagon_t	*head;
 	hexagon_t	*next;
 
-	while (hex)
-	{
-		head = hex;
-		next = hex->sides[4];
-		linerotate(hex);
-		hex = next;
-	}
+	next = head;
+	while (next->sides[4])
+		next = next->sides[4];
+	hexiter(head, hexrotate);
+	return (next);
+}
+
+void	hexiter(hexagon_t *head, void (*f)(hexagon_t *))
+{
+	hexagon_t	*hex;
+	hexagon_t	*next;
+
 	hex = head->sides[2];
 	while (hex)
 	{
 		next = hex->sides[2];
-		linerotate(hex);
+		f(hex);
 		hex = next;
 	}
-	return (head);
+	hex = head->sides[4];
+	while (hex)
+	{
+		next = hex->sides[4];
+		f(hex);
+		hex = next;
+	}
+	next = head->sides[3];
+	f(head);
+	if (next)
+		hexiter(next, f);
 }
 
-void	linerotate(hexagon_t *hex)
+void	hexrotate(hexagon_t *hex)
 {
 	hexagon_t	*tmp;
 
-	tmp = hex->sides[0];
-	for (int i = 0; i < 5; i++)
-		hex->sides[i] = hex->sides[i + 1];
-	hex->sides[5] = tmp;
-	if (hex->sides[1])
-		linerotate(hex->sides[1]);
-}
-
-int		main(void)
-{
-	hexagon_t	*grid = getgrid(2);
-
-	printf("### Left column:\n");
-	pgrid(grid->sides[4]);
-	printf("### Middle column:\n");
-	pgrid(grid);
-	printf("### Right column:\n");
-	pgrid(grid->sides[2]);
-	grid = gridrotate(grid, 1);
-	printf("=== New grid === \n");
-	printf("### Left column:\n");
-	pgrid(grid->sides[4]);
-	printf("### Middle column:\n");
-	pgrid(grid);
-	printf("### Right column:\n");
-	pgrid(grid->sides[2]);
-}
-
-void	pgrid(hexagon_t *hex)
-{
-	if (!hex)
-		return ;
-	printf("------Hex: %p-------\n", hex);
-	printf("Up: %p\n", hex->sides[0]);
-	printf("Up-right: %p\n", hex->sides[1]);
-	printf("Down-right: %p\n", hex->sides[2]);
-	printf("Down: %p\n", hex->sides[3]);
-	printf("Down-left: %p\n", hex->sides[4]);
-	printf("Up-left: %p\n", hex->sides[5]);
-	printf("\n");
-	pgrid(hex->sides[3]);
+	tmp = hex->sides[5];
+	for (int i = 5; i > 0; i--)
+		hex->sides[i] = hex->sides[i - 1];
+	hex->sides[0] = tmp;
 }
