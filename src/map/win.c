@@ -28,8 +28,9 @@ int	isfull(hexagon_t *head)
 	return (0);
 }
 
-int	isempty(hexagon_t *hex)
+int	isempty(hexagon_t *hex, void *param)
 {
+	(void)param;
 	if (!hex->color)
 		return (1);
 	return (0);
@@ -49,12 +50,12 @@ int	checkboard(hexagon_t *head, ...)
 		va_end(ap);
 		return (0);
 	}
-	ret += hexiter(head, checkcolor, colors[0]);
-	ret += hexiter(head, checkcolor, colors[1]);
+	ret += hexiter(head, checkcolor, &colors[0]);
+	ret += hexiter(head, checkcolor, &colors[1]);
 	return (ret);
 }
 
-int	checkcolor(hexagon_t *head, int color)
+int	checkcolor(hexagon_t *head, void *color)
 {
 	return (0);
 }
