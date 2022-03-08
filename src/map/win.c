@@ -1,20 +1,27 @@
 #include "map.h"
 
-int	iswin(hexagon_t *hex)
+int	iswin(hexagon_t *hex, void *color)
 {
-	if (win_row(hex, 0) || win_row(hex, 1) || win_row(hex, 2))
-		return (1);
+	if (win_row(hex, *(int *)color, 0)
+		|| win_row(hex, *(int *)color, 1)
+			|| win_row(hex, *(int *)color, 2))
+			{
+				printf("won\n");
+				return (1);
+			}
 	return (0);
 }
 
-int	win_row(hexagon_t *hex, int side)
+int	win_row(hexagon_t *hex, int color, int side)
 {
 	int	opposite = side + 3;
 	int	len = WINLEN - 1;
 
-	while (hex->sides[side] && hex->color == hex->sides[side]->color)
+	if (hex->color != color)
+		return (0);
+	while (hex->sides[side] && color == hex->sides[side]->color)
 		hex = hex->sides[side];
-	while (hex->sides[opposite] && hex->color == hex->sides[opposite]->color && len--)
+	while (hex->sides[opposite] && color == hex->sides[opposite]->color && len--)
 		hex = hex->sides[opposite];
 	if (!len)
 		return (1);
@@ -50,12 +57,7 @@ int	checkboard(hexagon_t *head, ...)
 		va_end(ap);
 		return (0);
 	}
-	ret += hexiter(head, checkcolor, &colors[0]);
-	ret += hexiter(head, checkcolor, &colors[1]);
+	ret += hexiter(head, iswin, &colors[0]);
+	ret += hexiter(head, iswin, &colors[1]);
 	return (ret);
-}
-
-int	checkcolor(hexagon_t *head, void *color)
-{
-	return (0);
 }

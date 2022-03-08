@@ -8,19 +8,20 @@ int	main(void)
 	hexagon_t	*head;
 
 	checkboard(0, BLUE, RED);
-	head = getgrid(2);
-	printf("%d\n", droptile(head, -1, 1));
+	head = getgrid(3);
+	printf("%d\n", droptile(head, -2, 1));
 	printf("%d\n", droptile(head, -1, 2));
 	printf("%d\n", droptile(head, 0, 3));
-	printf("%d\n", droptile(head, 0, 4));
-	printf("%d\n", droptile(head, 0, 5));
-	printf("%d\n", droptile(head, 1, 6));
-	printf("%d\n", droptile(head, 1, 7));
-	pgrid(head->sides[4]);
-	printf("================================\n");
+	printf("%d\n", droptile(head, 0, 1));
+	printf("%d\n", droptile(head, 1, 2));
+	printf("%d\n", gridrotate(&head, 4));
+	/*
 	pgrid(head);
 	printf("================================\n");
 	pgrid(head->sides[2]);
+	printf("================================\n");
+	pgrid(head->sides[2]->sides[2]);
+	*/
 }
 
 void	pgrid(hexagon_t *hex)

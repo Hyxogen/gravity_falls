@@ -7,12 +7,12 @@
 
 	//	Return meanings:
 	//	1:	"Win: someone won"
-	//	2:	"Draw: field is full"
-	//	3:	"Draw: both players won"
-	//	5:	"Illegal move: column is already full"
-	//	4:	"Illegal move: Tile dropped outside of field"
+	//	2:	"Draw: both players won"
+	//	3:	"Draw: field is full"
+	//	4:	"Illegal move: column is already full"
+	//	5:	"Illegal move: Tile dropped outside of field"
 
-#define WINLEN 4
+#define WINLEN 2
 
 typedef struct hexagon_s
 {
@@ -39,10 +39,10 @@ void		hexlinkrow(hexagon_t *hex, int side);
 void		hexlink(hexagon_t *hex);
 
 	//	win.c
-int			iswin(hexagon_t *hex);
 int			isfull(hexagon_t *head);
 int			isempty(hexagon_t *hex, void *param);
-int			win_row(hexagon_t *hex, int side);
+int			iswin(hexagon_t *hex, void *color);
+int			win_row(hexagon_t *hex, int color, int side);
 int			checkboard(hexagon_t *head, ...);
 int			checkcolor(hexagon_t *head, void *color);
 

@@ -12,10 +12,10 @@ int	droptile(hexagon_t *head, int column, int color)
 	while (hex->sides[3] && !hex->sides[3]->color)
 		hex = hex->sides[3];
 	hex->color = color;
-	if (iswin(hex))
+	if (iswin(hex, &hex->color))
 		return (1);
 	if (isfull(head))
-		return (2);
+		return (3);
 	return (0);
 }
 
