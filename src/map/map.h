@@ -41,9 +41,10 @@ void		hexlink(hexagon_t *hex);
 	//	win.c
 int			iswin(hexagon_t *hex);
 int			isfull(hexagon_t *head);
-int			isempty(hexagon_t *hex);
+int			isempty(hexagon_t *hex, void *param);
 int			win_row(hexagon_t *hex, int side);
 int			checkboard(hexagon_t *head, ...);
+int			checkcolor(hexagon_t *head, void *color);
 
 	//	drop.c
 void		dropall(hexagon_t *head);
@@ -53,6 +54,6 @@ int			droptile(hexagon_t *hex, int column, int color);
 	//	rotate.c
 void		gridrotate_once(hexagon_t **head);
 int			gridrotate(hexagon_t **head, unsigned int rot);
-int			hexrotate(hexagon_t *hex);
+int			hexrotate(hexagon_t *hex, void *param);
 
 #endif

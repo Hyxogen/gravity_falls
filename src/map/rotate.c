@@ -9,7 +9,7 @@ int	gridrotate(hexagon_t **head, unsigned int rot)
 	while (rot--)
 		gridrotate_once(head);
 	dropall(*head);
-	return (checkboard(head));
+	return (checkboard(*head));
 }
 
 void	gridrotate_once(hexagon_t **head)
@@ -23,11 +23,12 @@ void	gridrotate_once(hexagon_t **head)
 	*head = next;
 }
 
-int	hexrotate(hexagon_t *hex)
+int	hexrotate(hexagon_t *hex, void *param)
 {
 	hexagon_t	*tmp;
 	int			i;
 
+	(void)param;
 	tmp = hex->sides[5];
 	for (i = 5; i > 0; i--)
 		hex->sides[i] = hex->sides[i - 1];
