@@ -27,10 +27,10 @@ int main(int argc, char **argv) {
 	player_t player;
 	void *handle;
 
+	player_new(&player, "./bot");
 	if (argc != 2)
 		return EXIT_FAILURE;
 	hex = getgrid(atoi(argv[1]));
-	player_new(&player, "./bot");
 	gf_assert(hex);
 	win_setptr(&win, hex);
 	handle = gfx_init();

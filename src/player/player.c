@@ -9,7 +9,16 @@
 extern char **environ;
 
 void player_new(player_t *player, const char *exec) {
+	int gtop[2];
+	int ptog[2];
 	pid_t pid;
+
+	gf_pipe(gtop);
+	player->gtop_read = gtop[0];
+	player->gtop_write = gtop[1];
+	gf_pipe(ptog);
+	player->ptog_read = ptog[0];
+	player->ptog_write = ptog[1];
 
 	pid = gf_fork();
 	if (pid == 0) {

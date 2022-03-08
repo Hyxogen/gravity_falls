@@ -8,5 +8,6 @@ int gf_dup2(int fildes, int fildes2);
 int gf_execve(const char *path, char *const argv[], char *const envp[]);
 int gf_close(int filedes);
 int gf_kill(pid_t pid, int sig);
+int gf_pipe(int fildes[2]);
 
 #endif
