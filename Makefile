@@ -17,7 +17,8 @@ MLX_LIB					:= $(MLX_DIR)/libmlx.a
 
 SRC_FILES				:= $(SRC_DIR)/main.c $(SRC_DIR)/gfx/image_buffer.c \
 							$(SRC_DIR)/util/memory.c $(SRC_DIR)/gfx/window.c $(SRC_DIR)/gfx/renderer.c \
-							$(SRC_DIR)/map/grid.c $(SRC_DIR)/map/play.c
+							$(SRC_DIR)/map/grid.c $(SRC_DIR)/map/play.c $(SRC_DIR)/player/player.c \
+							$(SRC_DIR)/util/syscalls.h
 
 BLACK					:="\033[0;30m"
 RED						:="\033[0;31m"

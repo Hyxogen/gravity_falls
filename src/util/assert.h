@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define gf_abort(...) fprintf(stderr, __VA_ARGS__); abort();
+#define gf_abort(...) fprintf(stderr, __VA_ARGS__); fprintf(stderr, "%s:%d\n", __FILE__, __LINE__); kill(0, SIGABRT);
 
 #define gf_assert(cond) if (cond) { } else { gf_abort("Assertion failed: %s:%d\n", __FILE__, __LINE__) }
 

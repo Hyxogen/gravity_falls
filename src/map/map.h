@@ -4,9 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-	//	Error messages:
-	//	1:	"Tile dropped outside of field!\n"
-	//	2:	"Column is already full!\n"
+	//	Return meanings:
+	//	1:	"Tile dropped outside of field"
+	//	2:	"Column is already full"
+	//	3:	"Someone won"
+
+#define WINLEN 4
 
 typedef struct hexagon_s
 {
@@ -16,11 +19,14 @@ typedef struct hexagon_s
 
 	//	play.c
 hexagon_t	*getcolumn(hexagon_t *head, int column);
-int			droptile(hexagon_t *head, int column, int color);
+int			droptile(hexagon_t *hex, int column, int color);
+int			win_row(hexagon_t *hex, int side);
+int			win(hexagon_t *hex);
 
 	//	drop.c
 hexagon_t	*get_bottom_left(hexagon_t *head);
 hexagon_t	*get_first_empty(hexagon_t *hex);
+hexagon_t	*get_first_color(hexagon_t *hex);
 void		dropall(hexagon_t *head);
 void		dropcolumn(hexagon_t *hex);
 
