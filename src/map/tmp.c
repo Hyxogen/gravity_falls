@@ -1,9 +1,13 @@
 #include "map.h"
 
+#define BLUE 0x000000FF
+#define RED 0x00FF0000
+
 int	main(void)
 {
 	hexagon_t	*head;
 
+	checkboard(0, BLUE, RED);
 	head = getgrid(2);
 	printf("%d\n", droptile(head, -1, 1));
 	printf("%d\n", droptile(head, -1, 2));

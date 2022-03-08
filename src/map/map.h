@@ -3,13 +3,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 
 	//	Return meanings:
 	//	1:	"Win: someone won"
 	//	2:	"Draw: field is full"
-	//	3:	"Illegal move: Tile dropped outside of field"
-	//	4:	"Illegal move: column is already full"
-	//	5:	"Draw: both players won"
+	//	3:	"Draw: both players won"
+	//	5:	"Illegal move: column is already full"
+	//	4:	"Illegal move: Tile dropped outside of field"
 
 #define WINLEN 4
 
@@ -27,18 +28,7 @@ hexagon_t	*get_bottom_left(hexagon_t *head);
 hexagon_t	*get_first_empty(hexagon_t *hex);
 hexagon_t	*get_first_color(hexagon_t *hex);
 hexagon_t	*get_column(hexagon_t *head, int column);
-int			hexiter(hexagon_t *head, int (*f)(hexagon_t *));
-
-	//	play.c
-int			win_row(hexagon_t *hex, int side);
-int			iswin(hexagon_t *hex);
-int			isfull(hexagon_t *head);
-int			isempty(hexagon_t *hex);
-
-	//	drop.c
-int			droptile(hexagon_t *hex, int column, int color);
-int			dropall(hexagon_t *head);
-int			dropcolumn(hexagon_t *hex);
+int			hexiter(hexagon_t *head, int (*f)(hexagon_t *, void *), void *param);
 
 	//	grid.c
 hexagon_t	*getgrid(int len);
@@ -47,6 +37,18 @@ void		hexrows(hexagon_t *hex, int height);
 void		hexfill(hexagon_t *hex);
 void		hexlinkrow(hexagon_t *hex, int side);
 void		hexlink(hexagon_t *hex);
+
+	//	win.c
+int			iswin(hexagon_t *hex);
+int			isfull(hexagon_t *head);
+int			isempty(hexagon_t *hex);
+int			win_row(hexagon_t *hex, int side);
+int			checkboard(hexagon_t *head, ...);
+
+	//	drop.c
+void		dropall(hexagon_t *head);
+void		dropcolumn(hexagon_t *hex);
+int			droptile(hexagon_t *hex, int column, int color);
 
 	//	rotate.c
 void		gridrotate_once(hexagon_t **head);

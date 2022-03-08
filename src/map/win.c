@@ -34,3 +34,27 @@ int	isempty(hexagon_t *hex)
 		return (1);
 	return (0);
 }
+
+int	checkboard(hexagon_t *head, ...)
+{
+	static int	colors[2];
+	int			ret = 0;
+
+	if (!colors[0])
+	{
+		va_list	ap;
+		va_start(ap, head);
+		colors[0] = va_arg(ap, int);
+		colors[1] = va_arg(ap, int);
+		va_end(ap);
+		return (0);
+	}
+	ret += hexiter() checkcolor(head, colors[0]);
+	ret += checkcolor(head, colors[1]);
+	return (ret);
+}
+
+int	checkcolor(hexagon_t *head, int color)
+{
+	hex
+}

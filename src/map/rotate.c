@@ -2,14 +2,14 @@
 
 int	gridrotate(hexagon_t **head, unsigned int rot)
 {
+	if (!*head)
+		return (-1);
 	if (rot > 5)
 		rot = rot % 6;
-	if (*head)
-		while (rot--)
-			gridrotate_once(head);
-	if (dropall(*head))
-		return (1);
-	return (0);
+	while (rot--)
+		gridrotate_once(head);
+	dropall(*head);
+	return (checkboard(head));
 }
 
 void	gridrotate_once(hexagon_t **head)
@@ -19,7 +19,7 @@ void	gridrotate_once(hexagon_t **head)
 	next = *head;
 	while (next->sides[4])
 		next = next->sides[4];
-	hexiter(*head, hexrotate);
+	hexiter(*head, hexrotate, 0);
 	*head = next;
 }
 

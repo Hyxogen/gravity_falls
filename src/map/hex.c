@@ -58,7 +58,7 @@ hexagon_t	*get_column(hexagon_t *head, int column)
 	return (head);
 }
 
-int	hexiter(hexagon_t *head, int (*f)(hexagon_t *))
+int	hexiter(hexagon_t *head, int (*f)(hexagon_t *, void *), void *param)
 {
 	hexagon_t	*hex;
 	hexagon_t	*next;
@@ -68,19 +68,19 @@ int	hexiter(hexagon_t *head, int (*f)(hexagon_t *))
 	while (hex)
 	{
 		next = hex->sides[2];
-		ret += f(hex);
+		ret += f(hex, param);
 		hex = next;
 	}
 	hex = head->sides[4];
 	while (hex)
 	{
 		next = hex->sides[4];
-		ret += f(hex);
+		ret += f(hex, param);
 		hex = next;
 	}
 	next = head->sides[3];
-	ret += f(head);
+	ret += f(head, param);
 	if (next)
-		ret += hexiter(next, f);
+		ret += hexiter(next, f, param);
 	return (ret);
 }
