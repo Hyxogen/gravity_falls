@@ -24,6 +24,7 @@ void player_new(player_t *player, const char *exec);
 void player_destroy(player_t *player);
 
 int player_get_packet(packet_t *packet, const player_t *player, long timeout);
+int player_send_packet(packet_t *packet, const player_t *player);
 
 size_t packet_decode(packet_t *out, void *packet, size_t size);
 void packet_encode(packet_t *out, int type, int valx, int valy, int valz);

@@ -1,4 +1,4 @@
-TARGET					:= cluster
+TARGET					:= bot
 
 CFLAGS					:= -Wall -Wextra -pedantic
 LDFLAGS					:=
@@ -15,7 +15,7 @@ OUT_DIR					:= $(INT_DIR)
 
 MLX_LIB					:= $(MLX_DIR)/libmlx.a
 
-SRC_FILES				:= $(SRC_DIR)/main.c $(SRC_DIR)/gfx/image_buffer.c \
+SRC_FILES				:= $(SRC_DIR)/bot.c $(SRC_DIR)/gfx/image_buffer.c \
 							$(SRC_DIR)/util/memory.c $(SRC_DIR)/gfx/window.c $(SRC_DIR)/gfx/renderer.c \
 							$(SRC_DIR)/player/player.c \
 							$(SRC_DIR)/util/syscalls.h
