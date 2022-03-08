@@ -23,32 +23,7 @@ void	gridrotate_once(hexagon_t **head)
 	*head = next;
 }
 
-void	hexiter(hexagon_t *head, void (*f)(hexagon_t *))
-{
-	hexagon_t	*hex;
-	hexagon_t	*next;
-
-	hex = head->sides[2];
-	while (hex)
-	{
-		next = hex->sides[2];
-		f(hex);
-		hex = next;
-	}
-	hex = head->sides[4];
-	while (hex)
-	{
-		next = hex->sides[4];
-		f(hex);
-		hex = next;
-	}
-	next = head->sides[3];
-	f(head);
-	if (next)
-		hexiter(next, f);
-}
-
-void	hexrotate(hexagon_t *hex)
+int	hexrotate(hexagon_t *hex)
 {
 	hexagon_t	*tmp;
 	int			i;
@@ -57,4 +32,5 @@ void	hexrotate(hexagon_t *hex)
 	for (i = 5; i > 0; i--)
 		hex->sides[i] = hex->sides[i - 1];
 	hex->sides[0] = tmp;
+	return (0);
 }
