@@ -48,7 +48,7 @@ int	win(hexagon_t *hex)
 int	win_row(hexagon_t *hex, int side)
 {
 	int	opposite = side + 3;
-	int	len = WINLEN;
+	int	len = WINLEN - 1;
 
 	while (hex->sides[side] && hex->color == hex->sides[side]->color)
 		hex = hex->sides[side];

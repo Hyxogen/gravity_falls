@@ -1,25 +1,26 @@
 #include "map.h"
 
-hexagon_t	*gridrotate(hexagon_t *head, unsigned int rot)
+int	gridrotate(hexagon_t **head, unsigned int rot)
 {
 	if (rot > 5)
 		rot = rot % 6;
-	if (head)
+	if (*head)
 		while (rot--)
-			head = gridrotate_once(head);
-	dropall(head);
-	return (head);
+			gridrotate_once(head);
+	if (dropall(*head))
+		return (1);
+	return (0);
 }
 
-hexagon_t	*gridrotate_once(hexagon_t *head)
+void	gridrotate_once(hexagon_t **head)
 {
 	hexagon_t	*next;
 
-	next = head;
+	next = *head;
 	while (next->sides[4])
 		next = next->sides[4];
-	hexiter(head, hexrotate);
-	return (next);
+	hexiter(*head, hexrotate);
+	*head = next;
 }
 
 void	hexiter(hexagon_t *head, void (*f)(hexagon_t *))

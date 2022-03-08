@@ -1,21 +1,24 @@
 #include "map.h"
 
-void	dropall(hexagon_t *head)
+int	dropall(hexagon_t *head)
 {
 	head = get_bottom_left(head);
 	while (head->sides[2])
 	{
-		dropcolumn(head);
+		if (dropcolumn(head))
+			return (1);
 		head = head->sides[2];
 	}
 	while (head->sides[1])
 	{
-		dropcolumn(head);
+		if (dropcolumn(head))
+			return (1);
 		head = head->sides[1];
 	}
+	return (0);
 }
 
-void	dropcolumn(hexagon_t *hex)
+int	dropcolumn(hexagon_t *hex)
 {
 	hexagon_t	*filled;
 
@@ -24,10 +27,13 @@ void	dropcolumn(hexagon_t *hex)
 		hex = get_first_empty(hex);
 		filled = get_first_color(hex);
 		if (!hex || !filled)
-			return ;
+			return (0);
 		hex->color = filled->color;
 		filled->color = 0;
+		if (win(hex))
+			return (1);
 	}
+	return (0);
 }
 
 hexagon_t	*get_bottom_left(hexagon_t *head)

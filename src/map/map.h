@@ -5,11 +5,11 @@
 #include <stdlib.h>
 
 	//	Return meanings:
-	//	1:	"Tile dropped outside of field"
-	//	2:	"Column is already full"
-	//	3:	"Someone won"
+	//	1:	"Someone won"
+	//	2:	"Tile dropped outside of field"
+	//	3:	"Column is already full"
 
-#define WINLEN 4
+#define WINLEN 3
 
 typedef struct hexagon_s
 {
@@ -27,8 +27,8 @@ int			win(hexagon_t *hex);
 hexagon_t	*get_bottom_left(hexagon_t *head);
 hexagon_t	*get_first_empty(hexagon_t *hex);
 hexagon_t	*get_first_color(hexagon_t *hex);
-void		dropall(hexagon_t *head);
-void		dropcolumn(hexagon_t *hex);
+int			dropall(hexagon_t *head);
+int			dropcolumn(hexagon_t *hex);
 
 	//	grid.c
 hexagon_t	*getgrid(int len);
@@ -41,8 +41,8 @@ void		hexlink(hexagon_t *hex);
 void		pgrid(hexagon_t *hex);
 
 	//	rotate.c
-hexagon_t	*gridrotate(hexagon_t *grid, unsigned int rot);
-hexagon_t	*gridrotate_once(hexagon_t *hex);
+int			gridrotate(hexagon_t **head, unsigned int rot);
+void		gridrotate_once(hexagon_t **head);
 void		hexiter(hexagon_t *head, void (*f)(hexagon_t *));
 void		hexrotate(hexagon_t *hex);
 
