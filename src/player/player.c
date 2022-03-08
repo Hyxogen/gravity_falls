@@ -14,7 +14,6 @@ void _player_timeout_handler(int sig, siginfo_t *info, void *context) {
 	(void) sig;
 	(void) info;
 	(void) context;
-	write(1, "I'm done waiting\n", 18);
 }
 
 int player_init(void) {

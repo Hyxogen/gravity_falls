@@ -9,14 +9,11 @@
 
 int update(void *param) {
 	window_t *win;
-	// hexagon_t *hex;
+	hexagon_t *hex;
 
 	win = param;
-	// hex = win->usr_ptr;
-	// win_putp(win, 250, 250, COLOR_RED);
-	// render_hexh(&win->image, 250, 250, 100, 1, COLOR_RED);
-	// render_hexf(&win->image, 250, 250, 95, COLOR_BLUE);
-	// render_map(&win->image, 250, 50, 50, 1, hex, COLOR_RED);
+	hex = win->usr_ptr;
+	render_map(&win->image, 250, 50, 50, 1, hex, COLOR_RED);
 	win_update(win);
 	return 0;
 }
@@ -32,10 +29,6 @@ int main(int argc, char **argv) {
 	player_init();
 	player_new(&player, "./bot");
 	player_send_packet(&packet, &player);
-	if (player_get_packet(&packet, &player, 100) == 0)
-		printf("Thanks!\n");
-	else
-		printf("Wow rude\n");
 	if (argc != 2)
 		return EXIT_FAILURE;
 	// hex = getgrid(atoi(argv[1]));

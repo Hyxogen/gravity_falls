@@ -3,6 +3,14 @@
 
 #include <unistd.h>
 
+enum ptype_e {
+	pt_init,
+	pt_start,
+	pt_stop,
+	pt_eplace,
+	pt_erot
+};
+
 typedef struct player {
 	pid_t pid;
 	int gtop_write;
