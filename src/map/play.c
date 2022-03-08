@@ -1,17 +1,21 @@
 #include "map.h"
 
-int	droptile(hexagon_t *hex, int column, int color)
+int	droptile(hexagon_t *head, int column, int color)
 {
-	hex = getcolumn(hex, column);
+	hexagon_t	*hex;
+
+	hex = getcolumn(head, column);
 	if (!hex)
-		return (1);
+		return (3);
 	if (hex->color)
-		return (2);
+		return (4);
 	while (hex->sides[3] && !hex->sides[3]->color)
 		hex = hex->sides[3];
 	hex->color = color;
 	if (win(hex))
-		return (3);
+		return (1);
+	if (full(head))
+		return (2);
 	return (0);
 }
 
@@ -55,6 +59,20 @@ int	win_row(hexagon_t *hex, int side)
 	while (hex->sides[opposite] && hex->color == hex->sides[opposite]->color && len--)
 		hex = hex->sides[opposite];
 	if (!len)
+		return (1);
+	return (0);
+}
+
+int	full(hexagon_t *head)
+{
+	if (!hexiter(head, isempty))
+		return (1);
+	return (0);
+}
+
+int	isempty(hexagon_t *hex)
+{
+	if (!hex->color)
 		return (1);
 	return (0);
 }

@@ -2,25 +2,28 @@
 
 int	dropall(hexagon_t *head)
 {
+	int	ret = 0;
+
 	head = get_bottom_left(head);
 	while (head->sides[2])
 	{
 		if (dropcolumn(head))
-			return (1);
+			ret = 1;
 		head = head->sides[2];
 	}
 	while (head->sides[1])
 	{
 		if (dropcolumn(head))
-			return (1);
+			ret = 1;
 		head = head->sides[1];
 	}
-	return (0);
+	return (ret);
 }
 
 int	dropcolumn(hexagon_t *hex)
 {
 	hexagon_t	*filled;
+	int			ret = 0;
 
 	while (1)
 	{
@@ -31,9 +34,9 @@ int	dropcolumn(hexagon_t *hex)
 		hex->color = filled->color;
 		filled->color = 0;
 		if (win(hex))
-			return (1);
+			ret = 1;
 	}
-	return (0);
+	return (ret);
 }
 
 hexagon_t	*get_bottom_left(hexagon_t *head)

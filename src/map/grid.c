@@ -89,18 +89,29 @@ void	hexlink(hexagon_t *hex)
 	}
 }
 
-void	pgrid(hexagon_t *hex)
+int	hexiter(hexagon_t *head, int (*f)(hexagon_t *))
 {
-	if (!hex)
-		return ;
-	printf("------Hex: %p-------\n", (void*) hex);
-	printf("Up: %p\n", (void*) hex->sides[0]);
-	printf("Up-right: %p\n", (void*) hex->sides[1]);
-	printf("Down-right: %p\n", (void*) hex->sides[2]);
-	printf("Down: %p\n", (void*) hex->sides[3]);
-	printf("Down-left: %p\n", (void*) hex->sides[4]);
-	printf("Up-left: %p\n", (void*) hex->sides[5]);
-	printf("Color: 0x%08X\n", hex->color);
-	printf("\n");
-	pgrid(hex->sides[3]);
+	hexagon_t	*hex;
+	hexagon_t	*next;
+	int			ret = 0;
+
+	hex = head->sides[2];
+	while (hex)
+	{
+		next = hex->sides[2];
+		ret += f(hex);
+		hex = next;
+	}
+	hex = head->sides[4];
+	while (hex)
+	{
+		next = hex->sides[4];
+		ret += f(hex);
+		hex = next;
+	}
+	next = head->sides[3];
+	ret += f(head);
+	if (next)
+		ret += hexiter(next, f);
+	return (ret);
 }
