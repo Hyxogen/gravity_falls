@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <unistd.h>
+#include <sys/time.h>
 
 int gf_fork(void) {
 	int32_t ret;
@@ -57,5 +58,41 @@ int gf_pipe(int fildes[2]) {
 	ret = pipe(fildes);
 	if (ret <= -1)
 		gf_abort("pipe failed: error(%d):\"%s\"\n", ret, strerror(errno));
-	return (ret);
+	return ret;
+}
+
+ssize_t gf_read(int fildes, void *buf, size_t nbyte) {
+	ssize_t ret;
+	size_t bytes_read;
+
+	bytes_read = 0;
+	while ((bytes_read < nbyte) && (ret = read(fildes, buf, nbyte))) {
+		if (ret == -1) {
+			if (errno != EINTR)
+				gf_abort("read failed: error(%d):\"%s\"\n", ret, strerror(errno));
+			return -1;
+		} else if (bytes_read == 0)
+			return bytes_read;
+		bytes_read += ret;
+		buf += bytes_read;
+	}
+	return ret;
+}
+
+int gf_setitimer(int which, const struct itimerval *restrict value, struct itimerval *restrict ovalue) {
+	int ret;
+
+	ret = setitimer(which, value, ovalue);
+	if (ret <= -1)
+		gf_abort("setitimer failed: error(%d):\"%s\"\n", ret, strerror(errno));
+	return ret;
+}
+
+int gf_sigaction(int sig, const struct sigaction *restrict act, struct sigaction *restrict oact) {
+	int ret;
+
+	ret = sigaction(sig, act, oact);
+	if (ret <= -1)
+		gf_abort("sigaction failed: error(%d):\"%s\"\n", ret, strerror(errno));
+	return ret;
 }

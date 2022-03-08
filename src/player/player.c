@@ -1,12 +1,43 @@
 #include "player.h"
 
-#include <stdlib.h>
-#include <unistd.h>
 #include "util/assert.h"
 #include "util/syscalls.h"
+#include <stdlib.h>
+#include <unistd.h>
 #include <signal.h>
+#include <sys/time.h>
+#include <string.h>
 
 extern char **environ;
+
+void _player_timeout_handler(int sig, siginfo_t *info, void *context) {
+	(void) sig;
+	(void) info;
+	(void) context;
+}
+
+int player_init(void) {
+	struct sigaction act;
+
+	memset(&act, 0, sizeof(act));
+	act.sa_handler = _player_timeout_handler;
+	act.sa_flags = SA_SIGINFO;
+	gf_sigaction(SIGALRM, &act, NULL);
+	return 0;
+}
+
+int player_get_packet(packet_t *packet, const player_t *player, long timeout) {
+	struct itimerval val;
+	ssize_t ret;
+
+	memset(&val, 0, sizeof(val));
+	val.it_value.tv_sec = timeout / 1000;
+	gf_setitimer(ITIMER_REAL, &val, NULL);
+	ret = gf_read(player->ptog_read, packet, sizeof(*packet));
+	if (ret < sizeof(*packet))
+		return -1;
+	return ret;
+}
 
 void player_new(player_t *player, const char *exec) {
 	int gtop[2];
