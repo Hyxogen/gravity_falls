@@ -12,18 +12,6 @@ hexagon_t	*getgrid(int len)
 	return (hex);
 }
 
-hexagon_t	*hexnew(void)
-{
-	hexagon_t	*new;
-	int			i;
-
-	new = malloc(sizeof(*new));
-	for (i = 0; i < 6; i++)
-		new->sides[i] = 0;
-	new->color = 0;
-	return (new);
-}
-
 hexagon_t	*hexrow(hexagon_t *orig, int side, int len)
 {
 	hexagon_t	*new;
@@ -87,31 +75,4 @@ void	hexlink(hexagon_t *hex)
 		hex->sides[0]->sides[4]->sides[2] = hex;
 		hex->sides[5] = hex->sides[0]->sides[4];
 	}
-}
-
-int	hexiter(hexagon_t *head, int (*f)(hexagon_t *))
-{
-	hexagon_t	*hex;
-	hexagon_t	*next;
-	int			ret = 0;
-
-	hex = head->sides[2];
-	while (hex)
-	{
-		next = hex->sides[2];
-		ret += f(hex);
-		hex = next;
-	}
-	hex = head->sides[4];
-	while (hex)
-	{
-		next = hex->sides[4];
-		ret += f(hex);
-		hex = next;
-	}
-	next = head->sides[3];
-	ret += f(head);
-	if (next)
-		ret += hexiter(next, f);
-	return (ret);
 }
