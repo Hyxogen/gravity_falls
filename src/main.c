@@ -14,9 +14,9 @@ int update(void *param) {
 
 	win = param;
 	game = win->usr_ptr;
-	render_map(&win->image, 250, 50, 50, 1, game->map, COLOR_RED);
+	render_map(&win->image, win->width / 2, 50, 50, 1, game->map, COLOR_RED);
 	game_tick(game);
-	render_map(&win->image, 250, 50, 50, 1, game->map, COLOR_RED);
+	render_map(&win->image, win->width / 2, 50, 50, 1, game->map, COLOR_RED);
 	win_update(win);
 	return 0;
 }
@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
 	gf_assert(game.map);
 	win_setptr(&win, &game);
 	handle = gfx_init();
-	win_new(&win, "New Window", 500, 500, handle);
+	win_new(&win, "New Window", ((atoi(argv[1]) * 2) + 1) * 50, ((atoi(argv[1]) * 2) + 1) * 50, handle);
 	win_start(&win, update);
 	return EXIT_SUCCESS;
 }

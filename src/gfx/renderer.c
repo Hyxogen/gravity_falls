@@ -5,12 +5,13 @@
 
 #define HEX_SIZE 2.0f
 #define HEX_CONST 1.7320508f
+#define HEX_LEN_CONST 2.3094010f
 
 #define max(a, b) (a < b ? b : a)
 
-float _hex_sdf(int x, int y, int hex_x, int hex_y, int size) {
-	x = abs(hex_x - x);
-	y = abs(hex_y - y);
+float _hex_sdf(int x, int y, int size) {
+	x = abs(x);
+	y = abs(y);
 	return max(x * 0.5f * HEX_CONST + y * 0.5f, y) - size;
 }
 
@@ -19,13 +20,13 @@ void render_hexf(imbuffer_t *buffer, int hex_x, int hex_y, int size, color_t col
 	int hsize;
 	int x, y;
 
-	width = buffer->width;
-	height = buffer->height;
+	width = size * HEX_LEN_CONST;
+	height = size * HEX_LEN_CONST;
 	hsize = size / 2;
-	for (y = 0; y < height; y++) {
-		for (x = 0; x < width; x++) {
-			if (_hex_sdf(x, y, hex_x, hex_y, hsize) <= 0.0f)
-				ib_putp(buffer, x, y, color);
+	for (y = -size * HEX_LEN_CONST; y < height; y++) {
+		for (x = -size * HEX_LEN_CONST; x < width; x++) {
+			if (_hex_sdf(x, y, hsize) <= 0.0f)
+				ib_putp(buffer, hex_x + x, hex_y + y, color);
 		}
 	}
 }
@@ -36,14 +37,14 @@ void render_hexh(imbuffer_t *buffer, int hex_x, int hex_y, int size, int line_wi
 	int x, y;
 	float dist;
 
-	width = buffer->width;
-	height = buffer->height;
+	width = size * HEX_LEN_CONST;
+	height = size * HEX_LEN_CONST;
 	hsize = size / 2;
-	for (y = 0; y < height; y++) {
-		for (x = 0; x < width; x++) {
-			dist = _hex_sdf(x, y, hex_x, hex_y, hsize);
+	for (y = -size * HEX_LEN_CONST; y < height; y++) {
+		for (x = -size * HEX_LEN_CONST; x < width; x++) {
+			dist = _hex_sdf(x, y, hsize);
 			if (dist >= -line_width && dist <= 0.0f)
-				ib_putp(buffer, x, y, color);
+				ib_putp(buffer, hex_x + x, hex_y + y, color);
 		}
 	}
 }
