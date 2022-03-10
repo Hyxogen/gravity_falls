@@ -32,6 +32,7 @@ void	dropall(hexagon_t *head)
 		dropcolumn(head);
 		head = head->sides[1];
 	}
+	dropcolumn(head);
 }
 
 void	dropcolumn(hexagon_t *hex)
