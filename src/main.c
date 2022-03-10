@@ -26,8 +26,6 @@ int update(void *param) {
 	return 0;
 }
 
-#include <stdio.h>
-
 int main(int argc, char **argv) {
 	window_t win;
 	game_t game;
