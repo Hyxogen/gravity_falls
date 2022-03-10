@@ -9,12 +9,8 @@
 #include "map/opt.h"
 #include <mlx.h>
 
-<<<<<<< HEAD
 #define HEXAGON_SIZE 20
 #define HEXAGON_WIDTH 2
-=======
-#define HEXAGON_SIZE 50
->>>>>>> 07c28cda36f4e9bc977c3e7a1474a0af204d0936
 
 int update(void *param) {
 	window_t *win;
@@ -50,9 +46,7 @@ int main(int argc, char **argv) {
 	game.players[1].color_count[0] = gettiles(argc, argv);
 	game.players[1].color_count[1] = gettiles(argc, argv);
 	player_init();
-	len = atoi(argv[1]);
-	if (argc != 2)
-		return EXIT_FAILURE;
+	len = getsize(argc, argv);
 	game.map = gridcreate(len);
 	gf_assert(game.map);
 	win_setptr(&win, &game);
