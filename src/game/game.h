@@ -7,6 +7,7 @@
 typedef struct game_settings {
 	int think_time;
 	int board_size;
+	int tiles;
 } game_settings_t;
 
 typedef struct game {

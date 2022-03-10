@@ -93,14 +93,18 @@ int player_draw(player_t *player, int out[2]) {
 	out[1] = 0;
 	if (player->color_count[0] == 0 && player->color_count[1] == 0)
 		return 0;
-	else if (player->color_count[0] == 0) {
-		out[1] = player->color_count[1];
-		player->color_count[1] -= player->color_count[1] == 1 ? 1 : 2;
-		return out[1];
-	} else if (player->color_count[0] == 0) {
-		out[0] = player->color_count[0];
-		player->color_count[0] -= player->color_count[0] == 1 ? 1 : 2;
-		return out[0];
+	else if (player->color_count[0] == 0 && player->color_count[1] == 1) {
+		out[1] = 1;
+		player->color_count[1] = 0;
+		return 1;
+	} else if (player->color_count[1] == 0 && player->color_count[0] == 1) {
+		out[0] = 1;
+		player->color_count[0] = 0;
+		return 1;
+	} else if (player->color_count[0] == 1 && player->color_count[1] == 1) {
+		out[0] = out[1] = 1;
+		player->color_count[0] = player->color_count[1] = 0;
+		return 2;
 	}
 	while ((ran = random()) == 0)
 		continue;

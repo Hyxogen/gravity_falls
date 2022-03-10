@@ -26,9 +26,8 @@ void game_start(game_t *game, int sente) {
 	start_packet.type = pt_start;
 	start_packet.valx = game->settings.think_time;
 	start_packet.valy = game->settings.board_size;
-	start_packet.valz = sente == 0; /* Indicate whether this bot goes first */
+	start_packet.valz = game->settings.tiles;
 	player_send_packet(&start_packet, &game->players[0]);
-	start_packet.valz = !sente; /* Indicate whether this bot goes first */
 	player_send_packet(&start_packet, &game->players[1]);
 	game->turn = sente;
 }
