@@ -39,7 +39,7 @@ int		gettiles(int argc, char **argv)
 	while ((c = getopt(argc, argv, "f:g:c:s:t:v:")) != -1)
 		if (c == 't')
 			return (atoi(optarg));
-	return (30);
+	return (50);
 }
 
 int		getcolor(int argc, char **argv)
