@@ -8,7 +8,8 @@
 
 /*
 Flags:
-	-b(bots): names of bots(as paths, so ./bot)
+	-f(bots): first bot (as path, so ./bot1)
+	-g(bots): second bot (as path, so ./bot2)
 	-c(color): colors to be used
 	-s(size): board size, as sidelength
 	-t(tiles): amount of tiles

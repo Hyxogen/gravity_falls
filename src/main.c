@@ -38,6 +38,7 @@ int main(int argc, char **argv) {
 	game_new(&game, getbot(argc, argv), getbot(argc, argv));
 	game.settings.think_time = 500000;
 	game.players[0].colors[0] = getcolor(argc, argv);
+	printf("color: %X\n", game.players[0].colors[0]);
 	game.players[0].colors[1] = getcolor(argc, argv);
 	game.players[0].color_count[0] = gettiles(argc, argv);
 	game.players[0].color_count[1] = gettiles(argc, argv);
