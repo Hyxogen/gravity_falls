@@ -19,7 +19,6 @@ int update(void *param) {
 	win = param;
 	game = win->usr_ptr;
 	ib_clear(&win->image, COLOR_WHITE);
-	// render_map(&win->image, win->width / 2, HEXAGON_SIZE, HEXAGON_SIZE, 1, game->map, COLOR_RED);
 	game_tick(game);
 	render_map(&win->image, win->width / 2, HEXAGON_SIZE, HEXAGON_SIZE, HEXAGON_WIDTH, game->map, COLOR_BLACK);
 	win_update(win);

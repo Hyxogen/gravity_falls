@@ -17,10 +17,6 @@ void _player_timeout_handler(int sig, siginfo_t *info, void *context) {
 	(void) context;
 }
 
-// void _player_reaper(int sig, siginfo_t *info, void *context) {
-
-// }
-
 int player_init(void) {
 	struct sigaction act;
 

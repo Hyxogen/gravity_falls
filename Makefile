@@ -46,7 +46,7 @@ LINK_COLOR				:= $(CYAN)
 OBJECT_COLOR			:= $(RED)
 
 ifndef config
-	config				:= debug
+	config				:= distr
 endif
 
 ifndef san

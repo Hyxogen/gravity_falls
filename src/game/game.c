@@ -44,7 +44,7 @@ void game_stop(game_t *game, int winner) {
 	stop_packet.valx = winner == -1 ? -1 : winner == 1;
 	player_send_packet(&stop_packet, &game->players[1]);
 	if (winner != -1)
-		fprintf(stdout, "player%d \"%s\" won\n", winner, game->players[winner].exec);
+		fprintf(stdout, "player %d \"%s\" won\n", winner + 1, game->players[winner].exec);
 }
 
 int _game_handle_ppacket(game_t *game, player_t *player, const packet_t *packet, int hand[2]) {
@@ -84,7 +84,7 @@ void game_tick(game_t *game) {
 	}
 	player_send_hand(player, hand);
 	if (player_get_packet(&move, player, game->settings.think_time) < 0) {
-		fprintf(stdout, "Player [%d]: Timeout\n", game->turn);
+		fprintf(stdout, "Player %d: Timeout\n", game->turn + 1);
 		game_stop(game, !game->turn);
 		return;
 	}
@@ -99,11 +99,11 @@ void game_tick(game_t *game) {
 			game_stop(game, -1); 
 			return;
 		case -3:
-			fprintf(stdout, "Player [%d]: Illegal move: column is already full\n", game->turn);
+			fprintf(stdout, "Player %d: Illegal move: column is already full\n", game->turn + 1);
 			game_stop(game, !game->turn);
 			return;
 		case -4:
-			fprintf(stdout, "Player [%d]: Illegal move: Tile dropped outside of field\n", game->turn);
+			fprintf(stdout, "Player %d: Illegal move: Tile dropped outside of field\n", game->turn + 1);
 			game_stop(game, !game->turn);
 			return;
 		case -5:
