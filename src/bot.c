@@ -40,7 +40,6 @@ int main(void) {
 			packet.type = pt_rot;
 			packet.valx = random();
 		}
-		sleep(1);
 		gf_write(1, &packet, sizeof(packet));
 	}
 	return (0);

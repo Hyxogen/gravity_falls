@@ -17,7 +17,7 @@ Flags:
 	-v(victory): amount of tiles in a row needed to win
 
 	For example:
-	./cluster -f ./bot1 -g ./bot2 -s 10 -t 500 -v 10 -c 3355647 3404031 16724787 16742195
+	./cluster -a 100 -f ./bot1 -g ./bot2 -s 10 -t 500 -v 10 -c 3355647 3404031 16724787 16742195
 */
 
 void	opt_init(int argc, char **argv);
