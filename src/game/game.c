@@ -67,6 +67,8 @@ void game_tick(game_t *game) {
 	int hand[2];
 	int rc;
 
+	hand[0] = 0;
+	hand[1] = 0;
 	if (game->turn == -1)
 		return;
 	player = &game->players[game->turn];

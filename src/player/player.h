@@ -52,7 +52,7 @@ void player_destroy(player_t *player);
 int player_get_packet(packet_t *packet, const player_t *player, long timeout);
 int player_send_packet(packet_t *packet, const player_t *player);
 
-void player_send_hand(const player_t *player, int hand[2]);
+void player_send_hand(const player_t *player, const int hand[2]);
 
 int player_draw(player_t *player, int out[2]);
 int player_add(player_t *player, const int tiles[2]);

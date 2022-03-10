@@ -12,7 +12,7 @@
 	//	4:	"Illegal move: column is already full"
 	//	5:	"Illegal move: Tile dropped outside of field"
 
-#define WINLEN 2
+#define WINLEN 4
 
 typedef struct hexagon_s
 {

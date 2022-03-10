@@ -45,12 +45,13 @@ int player_send_packet(packet_t *packet, const player_t *player) {
 	return 0;
 }
 
-void player_send_hand(const player_t *player, int hand[2]) {
+void player_send_hand(const player_t *player, const int hand[2]) {
 	packet_t draw_packet;
 
 	memset(&draw_packet, 0, sizeof(draw_packet));
+	draw_packet.type = pt_draw;
 	draw_packet.valx = hand[0];
-	draw_packet.valx = hand[0];
+	draw_packet.valy = hand[1];
 	player_send_packet(&draw_packet, player);
 }
 
@@ -101,6 +102,7 @@ int player_draw(player_t *player, int out[2]) {
 }
 
 int player_add(player_t *player, const int tiles[2]) {
+	printf("adding back %d,%d\n", tiles[0], tiles[1]);
 	player->color_count[0] += tiles[0];
 	player->color_count[1] += tiles[1];
 	return 0;
