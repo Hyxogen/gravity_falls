@@ -27,6 +27,7 @@ int main(int argc, char **argv) {
 	void *handle;
 
 	(void)argv;
+	checkboard(0, COLOR_BLUE, COLOR_GREEN, COLOR_RED, COLOR_PINK);
 	game_new(&game, "./bot", "./bot");
 	game.settings.think_time = 500000;
 	game.players[0].colors[0] = COLOR_BLUE;
