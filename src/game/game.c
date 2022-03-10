@@ -84,6 +84,7 @@ void game_tick(game_t *game) {
 	}
 	player_send_hand(player, hand);
 	if (player_get_packet(&move, player, game->settings.think_time) < 0) {
+		fprintf(stdout, "Player [%d]: Timeout\n", game->turn);
 		game_stop(game, !game->turn);
 		return;
 	}

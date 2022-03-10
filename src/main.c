@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
 
 	opt_init(argc, argv);
 	game_new(&game, getbot(argc, argv), getbot(argc, argv));
-	game.settings.think_time = 500000;
+	game.settings.think_time = getthinkingtime(argc, argv);
 	game.settings.tiles = gettiles(argc, argv);
 	game.players[0].colors[0] = getcolor(argc, argv);
 	game.players[0].colors[1] = getcolor(argc, argv);

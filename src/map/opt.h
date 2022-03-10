@@ -8,6 +8,7 @@
 
 /*
 Flags:
+	-a(alarm): thinking time in millisecond
 	-c(color): colors to be used. Colors need to be given last
 	-f(bots): first bot (as path, so ./bot1)
 	-g(bots): second bot (as path, so ./bot2)
@@ -25,5 +26,6 @@ int		getcolor(int argc, char **argv);
 int		getsize(int argc, char **argv);
 int		gettiles(int argc, char **argv);
 int		getwinlen(int argc, char **argv);
+int		getthinkingtime(int argc, char **argv);
 
 #endif
