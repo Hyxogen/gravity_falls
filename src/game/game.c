@@ -57,7 +57,7 @@ int _game_handle_ppacket(game_t *game, player_t *player, const packet_t *packet,
 		case pt_rot:
 			return gridrotate(&game->map, (unsigned int) packet->valx);
 		default:
-			return -1;
+			return -5;
 	}
 }
 
@@ -85,24 +85,36 @@ void game_tick(game_t *game) {
 	}
 	rc = _game_handle_ppacket(game, player, &move, hand);
 	switch (rc) {
-		case 1:
-			fprintf(stdout, "someone won\n");
+		case -1:
+			fprintf(stdout, "both win draw\n");
 			game_stop(game, -1); /* TODO set correct winner */
 			return;
-		case 2:
-		case 3:
-			fprintf(stdout, "draw\n");
+		case -2:
+			fprintf(stdout, "field full draw\n");
+		case -3:
+			fprintf(stdout, "illegal move, column full\n");
 			game_stop(game, -1);
 			return;
-		case -1:
-			fprintf(stdout, "did not have tile\n");
-		case 4:
-		case 5:
-			fprintf(stdout, "illegal move\n");
+		case -4:
+			fprintf(stdout, "illegal move, out of field\n");
 			// game_stop(game, !game->turn);
 			return;
-		default:
+		case -5:
+			fprintf(stdout, "unknown packet\n");
+			game_stop(game, !game->turn);
+			return;
+		case 0:
 			player_send_packet(&move, &game->players[!game->turn]);
+			break;
+		default:
+			if (player->colors[0] == rc || player->colors[1] == rc) {
+				fprintf(stdout, "%d won\n", game->turn);
+				game_stop(game, game->turn);
+			} else {
+				fprintf(stdout, "%d won\n", !game->turn);
+				game_stop(game, !game->turn);
+			}
+			return;
 	}
 	game->turn = !game->turn;
 }

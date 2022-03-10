@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
 	void *handle;
 
 	(void)argv;
-	checkboard(0, COLOR_BLUE, COLOR_GREEN, COLOR_RED, COLOR_PINK);
+	checkboard(0, 0x0054FFCB, 0x004ADBE0, 0x00FA5E44, 0x00DE3C3C);
 	game_new(&game, "./bot", "./bot");
 	game.settings.think_time = 500000;
 	game.players[0].colors[0] = 0x0054FFCB;
@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
 	game.players[0].color_count[0] = 5000;
 	game.players[0].color_count[1] = 5000;
 	game.players[1].colors[0] = 0x00FA5E44;
-	game.players[1].colors[1] = 0xDE3C3C;
+	game.players[1].colors[1] = 0x00DE3C3C;
 	game.players[1].color_count[0] = 5000;
 	game.players[1].color_count[1] = 5000;
 	player_init();

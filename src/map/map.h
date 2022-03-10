@@ -15,7 +15,7 @@ Return meanings:
 	-4:	"Illegal move: Tile dropped outside of field"
 */	
 
-#define WINLEN 10
+#define WINLEN 4
 
 typedef struct hexagon_s
 {

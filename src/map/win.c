@@ -43,7 +43,7 @@ int	isempty(hexagon_t *hex, void *param)
 int	checkboard(hexagon_t *head, ...)
 {
 	static int	colors[4];
-	int			color[4] = {};
+	int			color[4] = { 0 };
 	int			ret = 0;
 	int			i;
 
