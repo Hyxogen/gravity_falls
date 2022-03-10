@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "player/player.h"
+#include "player.h"
 #include "map/map.h"
 
 typedef struct game_settings {
@@ -24,5 +24,8 @@ int _game_handle_ppacket(game_t *game, player_t *player, const packet_t *packet,
 void game_start(game_t *game, int sente);
 void game_stop(game_t *game, int winner);
 void game_tick(game_t *game);
+void game_quit(game_t *game);
+
+void game_packet_print(game_t *game, const packet_t *packet);
 
 #endif

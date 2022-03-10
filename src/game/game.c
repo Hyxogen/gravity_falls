@@ -1,18 +1,22 @@
 #include "game.h"
 
+#include "util/syscalls.h"
 #include <string.h>
 
-void game_new(game_t *game, const char *sente_exec, const char *gote_exec) {
-	packet_t init_packet;
+const static char *g_packet_names[] = {
+	"packet_init",
+	"packet_start",
+	"packet_top",
+	"packet_draw",
+	"packet_place",
+	"packet_rot",
+	"packet_quit"
+};
 
+void game_new(game_t *game, const char *sente_exec, const char *gote_exec) {
 	memset(game, 0, sizeof(*game));
-	memset(&init_packet, 0, sizeof(init_packet));
-	init_packet.type = pt_init;
 	player_new(&game->players[0], sente_exec);
 	player_new(&game->players[1], gote_exec);
-
-	player_send_packet(&init_packet, &game->players[0]);
-	player_send_packet(&init_packet, &game->players[1]);
 }
 
 void game_start(game_t *game, int sente) {
@@ -39,6 +43,10 @@ void game_stop(game_t *game, int winner) {
 	player_send_packet(&stop_packet, &game->players[0]);
 	stop_packet.valx = winner == -1 ? -1 : winner == 1;
 	player_send_packet(&stop_packet, &game->players[1]);
+	if (winner == -1)
+		fprintf(stdout, "draw\n");
+	else
+		fprintf(stdout, "player%d \"%s\" won\n", winner, game->players[winner].exec);
 }
 
 void game_destroy(game_t *game) {
@@ -49,8 +57,10 @@ void game_destroy(game_t *game) {
 int _game_handle_ppacket(game_t *game, player_t *player, const packet_t *packet, int hand[2]) {
 	switch (packet->type) {
 		case pt_place:
-			if (hand[packet->valx] <= 0)
-				return -1;
+			if (hand[packet->valx] <= 0) {
+				printf("played did not have %d (%d,%d)\n", packet->valx, hand[0], hand[1]);
+				return -5;
+			}
 			hand[packet->valx]--;
 			player_add(player, hand);
 			return droptile(game->map, packet->valy, player->colors[packet->valx]);
@@ -73,48 +83,48 @@ void game_tick(game_t *game) {
 		return;
 	player = &game->players[game->turn];
 	if (player_draw(player, hand) == 0) {
-		fprintf(stdout, "out of tiles\n");
 		game_stop(game, !game->turn);
 		return;
 	}
 	player_send_hand(player, hand);
 	if (player_get_packet(&move, player, game->settings.think_time) < 0) {
-		fprintf(stdout, "no move\n");
 		game_stop(game, !game->turn);
 		return;
 	}
 	rc = _game_handle_ppacket(game, player, &move, hand);
 	switch (rc) {
 		case -1:
-			fprintf(stdout, "both win draw\n");
-			game_stop(game, -1); /* TODO set correct winner */
-			return;
 		case -2:
-			fprintf(stdout, "field full draw\n");
+			game_stop(game, -1); 
+			return;
 		case -3:
-			fprintf(stdout, "illegal move, column full\n");
-			game_stop(game, -1);
+			game_stop(game, !game->turn);
 			return;
 		case -4:
-			fprintf(stdout, "illegal move, out of field\n");
-			// game_stop(game, !game->turn);
+			game_stop(game, !game->turn);
 			return;
 		case -5:
-			fprintf(stdout, "unknown packet\n");
 			game_stop(game, !game->turn);
 			return;
 		case 0:
 			player_send_packet(&move, &game->players[!game->turn]);
 			break;
 		default:
-			if (player->colors[0] == rc || player->colors[1] == rc) {
-				fprintf(stdout, "%d won\n", game->turn);
+			if (player->colors[0] == rc || player->colors[1] == rc)
 				game_stop(game, game->turn);
-			} else {
-				fprintf(stdout, "%d won\n", !game->turn);
+			else
 				game_stop(game, !game->turn);
-			}
 			return;
 	}
 	game->turn = !game->turn;
+}
+
+void game_quit(game_t *game) {
+	player_destroy(&game->players[0]);
+	player_destroy(&game->players[1]);
+}
+
+void game_packet_print(game_t *game, const packet_t *packet) {
+	(void) game;
+	fprintf(stderr, "{ type:\"%s\", valx:%d, valy:%d, valz:%d }\n", g_packet_names[packet->type], packet->valx, packet->valy, packet->valz);
 }

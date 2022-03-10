@@ -7,6 +7,7 @@
 #include <signal.h>
 #include <sys/time.h>
 #include <string.h>
+#include <time.h>
 
 extern char **environ;
 
@@ -16,6 +17,10 @@ void _player_timeout_handler(int sig, siginfo_t *info, void *context) {
 	(void) context;
 }
 
+// void _player_reaper(int sig, siginfo_t *info, void *context) {
+
+// }
+
 int player_init(void) {
 	struct sigaction act;
 
@@ -23,6 +28,7 @@ int player_init(void) {
 	act.sa_sigaction = _player_timeout_handler;
 	act.sa_flags = SA_SIGINFO;
 	gf_sigaction(SIGALRM, &act, NULL);
+	srandomdev();
 	return 0;
 }
 
@@ -66,6 +72,8 @@ void player_new(player_t *player, const char *exec) {
 	gf_pipe(ptog);
 	player->ptog_read = ptog[0];
 	player->ptog_write = ptog[1];
+
+	player->exec = exec;
 
 	pid = gf_fork();
 	if (pid == 0) {
@@ -112,7 +120,12 @@ int player_add(player_t *player, const int tiles[2]) {
 }
 
 void player_destroy(player_t *player) {
+	packet_t quit_packet;
+
+	memset(&quit_packet, 0, sizeof(quit_packet));
+	quit_packet.type = pt_quit;
+	player_send_packet(&quit_packet, player);
+	gf_waitpid(player->pid, NULL, 0);
 	gf_close(player->gtop_write);
 	gf_close(player->ptog_read);
-	gf_kill(player->pid, SIGKILL);
 }

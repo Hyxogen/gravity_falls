@@ -17,7 +17,8 @@ MLX_LIB					:= $(MLX_DIR)/libmlx.a
 
 SRC_FILES				:= $(SRC_DIR)/bot.c $(SRC_DIR)/gfx/image_buffer.c \
 							$(SRC_DIR)/util/memory.c $(SRC_DIR)/gfx/window.c $(SRC_DIR)/gfx/renderer.c \
-							$(SRC_DIR)/player/player.c \
+							$(SRC_DIR)/game/player.c $(SRC_DIR)/game/game.c $(SRC_DIR)/map/drop.c $(SRC_DIR)/map/rotate.c \
+							$(SRC_DIR)/map/win.c $(SRC_DIR)/map/hex.c $(SRC_DIR)/map/grid.c \
 							$(SRC_DIR)/util/syscalls.h
 
 BLACK					:="\033[0;30m"

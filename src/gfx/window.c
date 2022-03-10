@@ -1,12 +1,14 @@
 #include "gfx.h"
 #include <mlx.h>
 #include "util/assert.h"
+#include "util/syscalls.h"
+#include "game/game.h"
 
 #define ESC	53
 #define DESTROY_NOTIFY 17
 
-int win_key(int keycode);
-int	win_close(void);
+int win_key(int keycode, window_t *window);
+int	win_close(window_t *window);
 
 void win_new(window_t *window, const char *title, int width, int height, void *mlx) {
 	window->width = width;
@@ -26,7 +28,7 @@ void win_destroy(window_t *window) {
 
 void win_start(window_t *window, win_update_proc proc) {
 	mlx_hook(window->handle, DESTROY_NOTIFY, 0, win_close, 0);
-	mlx_key_hook(window->handle, win_key, 0);
+	mlx_key_hook(window->handle, win_key, window);
 	mlx_loop_hook(window->mlx, proc, window);
 	mlx_loop(window->mlx);
 }
@@ -39,14 +41,16 @@ void win_setptr(window_t *window, void *ptr) {
 	window->usr_ptr = ptr;
 }
 
-int win_key(int keycode)
-{
+int win_key(int keycode, window_t *window) {
 	if (keycode == ESC)
-		win_close();
+		win_close(window);
 	return (0);
 }
 
-int	win_close(void)
-{
+int	win_close(window_t *window) {
+	game_t *game;
+
+	game = window->usr_ptr;
+	game_quit(game);
 	exit(EXIT_SUCCESS);
 }

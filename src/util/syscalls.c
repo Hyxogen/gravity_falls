@@ -117,3 +117,12 @@ int gf_sigaction(int sig, const struct sigaction *restrict act, struct sigaction
 		gf_abort("sigaction failed: error(%d):\"%s\"\n", errno, strerror(errno));
 	return ret;
 }
+
+pid_t gf_waitpid(pid_t pid, int *stat_loc, int options) {
+	int ret;
+
+	ret = waitpid(pid, stat_loc, options);
+	if (ret <= -1)
+		gf_abort("waitpid failed: error(%d):\"%s\"\n", errno, strerror(errno));
+	return ret;
+}

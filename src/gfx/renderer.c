@@ -53,12 +53,10 @@ void _render_hex_column(imbuffer_t *buffer, int x, int y, int size, int line_wid
 	for (; top; top = top->sides[3]) {
 		render_hexh(buffer, x, y, size, line_width, color);
 		if (top->color)
-			render_hexf(buffer, x, y, size - 2, top->color);
+			render_hexf(buffer, x, y, size - 2*line_width, top->color);
 		y += size + 2 * line_width;
 	}
 }
-
-#define hex_size(x) 0
 
 void render_map(imbuffer_t *buffer, int x, int y, int size, int line_width, const hexagon_t *map, color_t color) {
 	hexagon_t *hex;
@@ -66,19 +64,19 @@ void render_map(imbuffer_t *buffer, int x, int y, int size, int line_width, cons
 	int hsize;
 
 	hsize = size / 2;
-	xoff = size - hex_size(size / 2.0f);
+	xoff = size;
 	yoff = hsize;
 	_render_hex_column(buffer, x, y, size, line_width, map, color);
 	for (hex = map->sides[2]; hex; hex = hex->sides[2]) {
 		_render_hex_column(buffer, x + xoff, y + yoff, size, line_width, hex, color);
-		xoff += size - hex_size(size / 2.0f);
+		xoff += size;
 		yoff += hsize;
 	}
-	xoff = -size + hex_size(size / 2.0f);
+	xoff = -size;
 	yoff = hsize;
 	for (hex = map->sides[4]; hex; hex = hex->sides[4]) {
 		_render_hex_column(buffer, x + xoff, y + yoff, size, line_width, hex, color);
-		xoff -= size + hex_size(size / 2.0f);
+		xoff -= size;
 		yoff += hsize;
 	}
 }

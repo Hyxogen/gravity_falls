@@ -28,6 +28,7 @@ enum ptype_e {
 };
 
 typedef struct player {
+	const char *exec;
 	pid_t pid;
 	int gtop_write;
 	int gtop_read;

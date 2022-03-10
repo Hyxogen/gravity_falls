@@ -16,5 +16,6 @@ ssize_t gf_read(int fildes, void *buf, size_t nbyte);
 ssize_t gf_write(int fildes, const void *buf, size_t nbyte);
 int gf_setitimer(int which, const struct itimerval *restrict value, struct itimerval *restrict ovalue);
 int gf_sigaction(int sig, const struct sigaction *restrict act, struct sigaction *restrict oact);
+pid_t gf_waitpid(pid_t pid, int *stat_loc, int options);
 
 #endif
