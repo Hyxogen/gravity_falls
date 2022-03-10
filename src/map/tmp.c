@@ -5,6 +5,8 @@
 #define BLUE 0x000000FF
 #define RED 0x00FF0000
 
+void		pgrid(hexagon_t *hex);
+
 int	main(void)
 {
 	hexagon_t	*head;

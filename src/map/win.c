@@ -1,4 +1,5 @@
 #include "map.h"
+#include "opt.h"
 
 int	iswin(hexagon_t *hex, void *color)
 {
@@ -9,17 +10,28 @@ int	iswin(hexagon_t *hex, void *color)
 	return (0);
 }
 
-int	win_row(hexagon_t *hex, int color, int side)
+int	win_row(hexagon_t *hex, int color, int side, ...)
 {
-	int	opposite = side + 3;
-	int	len = WINLEN - 1;
+	static int	winlen = -1;
+	int			len;
 
+	if (winlen < 0)
+	{
+		va_list	ap;
+		va_start(ap, side);
+		winlen = getwinlen(va_arg(ap, int), va_arg(ap, void *));
+		va_end(ap);
+		if (winlen)
+			winlen--;
+		return (0);
+	}
+	len = winlen;
 	if (hex->color != color)
 		return (0);
 	while (hex->sides[side] && color == hex->sides[side]->color)
 		hex = hex->sides[side];
-	while (hex->sides[opposite] && color == hex->sides[opposite]->color && len--)
-		hex = hex->sides[opposite];
+	while (hex->sides[side + 3] && color == hex->sides[side + 3]->color && len--)
+		hex = hex->sides[side + 3];
 	if (!len)
 		return (1);
 	return (0);
@@ -51,10 +63,10 @@ int	checkboard(hexagon_t *head, ...)
 	{
 		va_list	ap;
 		va_start(ap, head);
-		colors[0] = va_arg(ap, int);
-		colors[1] = va_arg(ap, int);
-		colors[2] = va_arg(ap, int);
-		colors[3] = va_arg(ap, int);
+		int		argc = va_arg(ap, int);
+		char	**argv = va_arg(ap, void *);
+		for (i = 0; i < 4; i++)
+			colors[i] = getcolor(argc, argv);
 		va_end(ap);
 		return (0);
 	}
