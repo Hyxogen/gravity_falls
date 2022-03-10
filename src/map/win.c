@@ -62,5 +62,6 @@ int	checkboard(hexagon_t *head, ...)
 	if (hexiter(head, iswin, &colors[2])
 	||  hexiter(head, iswin, &colors[3]))
 		ret++;
+	printf("%s: ret: %d\n", __func__, ret);
 	return (ret);
 }
