@@ -81,6 +81,8 @@ void player_new(player_t *player, const char *exec) {
 int player_draw(player_t *player, int out[2]) {
 	long ran;
 
+	out[0] = 0;
+	out[1] = 0;
 	if (player->color_count[0] == 0 && player->color_count[1] == 0)
 		return 0;
 	else if (player->color_count[0] == 0) {
@@ -94,15 +96,16 @@ int player_draw(player_t *player, int out[2]) {
 	}
 	while ((ran = random()) == 0)
 		continue;
-	out[ran & 1] = player->color_count[ran & 1]--;
+	out[ran & 1] += 1;
+	player->color_count[ran & 1]--;
 	while ((ran = random()) == 0)
 		continue;
-	out[ran & 1] = player->color_count[ran & 1]--;
+	out[ran & 1] += 1;
+	player->color_count[ran & 1]--;
 	return 2;
 }
 
 int player_add(player_t *player, const int tiles[2]) {
-	printf("adding back %d,%d\n", tiles[0], tiles[1]);
 	player->color_count[0] += tiles[0];
 	player->color_count[1] += tiles[1];
 	return 0;
