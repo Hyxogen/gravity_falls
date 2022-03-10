@@ -58,9 +58,13 @@ ifdef verbose
 	SILENT				:=
 endif
 
-ifeq ($(config), debug)
+ifeq ($(config), sandebug)
 	CFLAGS				+= -g3 -Og -fsanitize=$(san) -DGF_BUILD_DEBUG
 	LDFLAGS				+= -g3 -Og -fsanitize=$(san) -fno-inline
+	OUT_DIR				:= $(INT_DIR)/debug
+else ifeq ($(config), debug)
+	CFLAGS				+= -g3 -Og -DGF_BUILD_DEBUG
+	LDFLAGS				+= -g3 -Og -fno-inline
 	OUT_DIR				:= $(INT_DIR)/debug
 else ifeq ($(config), release)
 	CFLAGS				+= -g -O1 -DGF_BUILD_RELEASE
