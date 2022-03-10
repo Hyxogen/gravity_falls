@@ -17,6 +17,8 @@
 #define COLOR_GREEN_MASK	0x0000ff00
 #define COLOR_BLUE_MASK		0x000000ff
 
+#define COLOR_WHITE	0x00FFFFFF
+#define COLOR_BLACK	0x00000000
 #define COLOR_BLUE	0x000000FF
 #define COLOR_RED	0x00FF0000
 #define COLOR_GREEN	0x0000FF00
@@ -67,6 +69,7 @@ void ib_destroy(imbuffer_t *buffer);
 void ib_putp(imbuffer_t *buffer, int x, int y, color_t color);
 
 void ib_flush(window_t *out, const imbuffer_t *buffer);
+void ib_clear(imbuffer_t *buffer, color_t color);
 
 void render_hexf(imbuffer_t *buffer, int hex_x, int hex_y, int size, color_t color);
 void render_hexh(imbuffer_t *buffer, int hex_x, int hex_y, int size, int line_width, color_t color);

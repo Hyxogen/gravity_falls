@@ -34,3 +34,15 @@ void ib_putp(imbuffer_t *buffer, int x, int y, color_t color) {
 void ib_flush(window_t *out, const imbuffer_t *buffer) {
 	mlx_put_image_to_window(out->mlx, out->handle, buffer->handle, 0, 0);
 }
+
+void ib_clear(imbuffer_t *buffer, color_t color) {
+	int x, y;
+	int width, height;
+
+	width = buffer->width;
+	height = buffer->height;
+	for (y = 0; y < height; y++) {
+		for (x = 0; x < width; x++)
+			ib_putp(buffer, x, y, color);
+	}
+}

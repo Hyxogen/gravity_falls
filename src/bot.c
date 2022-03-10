@@ -17,6 +17,7 @@ int main(void) {
 			continue;
 		if (random() & 1) {
 			packet.type = pt_place;
+			packet.valy = random() % 18 - 9; 
 			if (in.valx == 0)
 				packet.valx = 1;
 			else if (in.valy == 0)
@@ -25,10 +26,9 @@ int main(void) {
 				packet.valx = random() & 1;
 		} else {
 			packet.type = pt_rot;
-			packet.valx = 1;
+			packet.valx = random();
 		}
 		gf_write(1, &packet, sizeof(packet));
-		sleep(1);
 	}
 	return (0);
 }

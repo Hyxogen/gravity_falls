@@ -52,8 +52,9 @@ void render_hexh(imbuffer_t *buffer, int hex_x, int hex_y, int size, int line_wi
 void _render_hex_column(imbuffer_t *buffer, int x, int y, int size, int line_width, const hexagon_t *top, color_t color) {
 	for (; top; top = top->sides[3]) {
 		render_hexh(buffer, x, y, size, line_width, color);
-		render_hexf(buffer, x, y, size - 2, top->color);
-		y += size;
+		if (top->color)
+			render_hexf(buffer, x, y, size - 2, top->color);
+		y += size + 2 * line_width;
 	}
 }
 

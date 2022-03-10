@@ -10,7 +10,7 @@
  * stop: the game has finished for any reason, valx is 0 if the player lost, 1 if the player won, -1 if it was a draw
  * draw: the hand the player has drawn valx contains the count of tiles of the first color, valy of the second color 
  * place:
- * 	if sent from server to player, the other player has placed color valx at coordinates (valy,valz)
+ * 	if sent from server to player, the other player has placed color valx at coordinates valy
  *  if sent from player to server, the player requests the server to place color valx at coordinated (valy,valz)
  * rot:
  * 	if sent from server to player, the other player has rotated the gravity of the board to point to valx (can be 0, 1, 2, 3, 4, 5)

@@ -99,7 +99,7 @@ void game_tick(game_t *game) {
 		case 4:
 		case 5:
 			fprintf(stdout, "illegal move\n");
-			game_stop(game, !game->turn);
+			// game_stop(game, !game->turn);
 			return;
 		default:
 			player_send_packet(&move, &game->players[!game->turn]);
