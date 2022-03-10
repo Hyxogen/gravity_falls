@@ -68,6 +68,18 @@ void player_new(player_t *player, const char *exec) {
 		player->pid = pid;
 }
 
+int player_draw(player_t *player, int out[2]) {
+	long ran;
+
+	while ((ran = random()) == 0)
+		continue;
+	return (0):
+}
+
+int player_add(player_t *player, const int tiles[2]) {
+
+}
+
 void player_destroy(player_t *player) {
 	gf_close(player->gtop_write);
 	gf_close(player->ptog_read);

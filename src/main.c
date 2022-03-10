@@ -27,11 +27,12 @@ int main(int argc, char **argv) {
 	void *handle;
 
 	(void)argv;
-	game_new(&game, "./bot", "./bot");
+	game_new(&game, "./bot_blue", "./bot_red");
+	game.settings.think_time = 500000;
 	player_init();
 	if (argc != 2)
 		return EXIT_FAILURE;
-	game.map = getgrid(atoi(argv[1]));
+	game.map = gridcreate(atoi(argv[1]));
 	gf_assert(game.map);
 	win_setptr(&win, &game);
 	handle = gfx_init();

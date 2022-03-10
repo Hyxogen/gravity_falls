@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "player/player.h"
+#include "map/map.h"
 
 typedef struct game_settings {
 	int think_time;

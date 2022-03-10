@@ -1,6 +1,5 @@
 #include "game.h"
 
-#include "map/map.h"
 #include <string.h>
 
 void game_new(game_t *game, const char *sente_exec, const char *gote_exec) {
