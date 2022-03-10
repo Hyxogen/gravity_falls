@@ -6,3 +6,4 @@ drawing
 field
 *.d
 bot
+*.o

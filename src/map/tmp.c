@@ -1,5 +1,7 @@
 #include "map.h"
 
+#define YELLOW 0x0000FFFF
+#define GREEN 0x0000FF00
 #define BLUE 0x000000FF
 #define RED 0x00FF0000
 
@@ -7,14 +9,14 @@ int	main(void)
 {
 	hexagon_t	*head;
 
-	checkboard(0, BLUE, RED);
+	checkboard(0, BLUE, GREEN, YELLOW, RED);
 	head = gridcreate(3);
-	printf("%d\n", droptile(head, -2, 1));
-	printf("%d\n", droptile(head, -1, 2));
-	printf("%d\n", droptile(head, 0, 3));
-	printf("%d\n", droptile(head, 0, 1));
-	printf("%d\n", droptile(head, 1, 2));
-	printf("%d\n", gridrotate(&head, 4));
+	printf("%d\n", droptile(head, -2, BLUE));
+	printf("%d\n", droptile(head, -1, RED));
+	printf("%d\n", droptile(head, 0, YELLOW));
+	printf("%d\n", droptile(head, 0, BLUE));
+	printf("%d\n", droptile(head, 1, RED));
+	printf("%d\n", gridrotate(&head, 5));
 	/*
 	pgrid(head);
 	printf("================================\n");
