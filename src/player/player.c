@@ -45,6 +45,15 @@ int player_send_packet(packet_t *packet, const player_t *player) {
 	return 0;
 }
 
+void player_send_hand(const player_t *player, int hand[2]) {
+	packet_t draw_packet;
+
+	memset(&draw_packet, 0, sizeof(draw_packet));
+	draw_packet.valx = hand[0];
+	draw_packet.valx = hand[0];
+	player_send_packet(&draw_packet, player);
+}
+
 void player_new(player_t *player, const char *exec) {
 	int gtop[2];
 	int ptog[2];
@@ -71,13 +80,30 @@ void player_new(player_t *player, const char *exec) {
 int player_draw(player_t *player, int out[2]) {
 	long ran;
 
+	if (player->color_count[0] == 0 && player->color_count[1] == 0)
+		return 0;
+	else if (player->color_count[0] == 0) {
+		out[1] = player->color_count[1];
+		player->color_count[1] -= player->color_count[1] == 1 ? 1 : 2;
+		return out[1];
+	} else if (player->color_count[0] == 0) {
+		out[0] = player->color_count[0];
+		player->color_count[0] -= player->color_count[0] == 1 ? 1 : 2;
+		return out[0];
+	}
 	while ((ran = random()) == 0)
 		continue;
-	return (0):
+	out[ran & 1] = player->color_count[ran & 1]--;
+	while ((ran = random()) == 0)
+		continue;
+	out[ran & 1] = player->color_count[ran & 1]--;
+	return 2;
 }
 
 int player_add(player_t *player, const int tiles[2]) {
-
+	player->color_count[0] += tiles[0];
+	player->color_count[1] += tiles[1];
+	return 0;
 }
 
 void player_destroy(player_t *player) {

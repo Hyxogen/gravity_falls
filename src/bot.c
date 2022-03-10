@@ -10,8 +10,6 @@ int main(void) {
 
 	memset(&packet, 0, sizeof(packet));
 	packet.type = pt_place;
-	packet.valx = COLOR_RED;
-	packet.valy = 0;
 	sleep(4);
 	while (1) {
 		gf_write(1, &packet, sizeof(packet));

@@ -20,6 +20,7 @@
 #define COLOR_BLUE	0x000000FF
 #define COLOR_RED	0x00FF0000
 #define COLOR_GREEN	0x0000FF00
+#define COLOR_PINK	0x00FF00FF
 
 typedef struct imbuffer imbuffer_t;
 typedef struct screen screen_t;

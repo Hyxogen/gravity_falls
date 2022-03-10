@@ -22,9 +22,9 @@ void game_start(game_t *game, int sente) {
 	start_packet.type = pt_start;
 	start_packet.valx = game->settings.think_time;
 	start_packet.valy = game->settings.board_size;
-	start_packet.valz = sente == 0; /* Indicate that this bot goes first */
+	start_packet.valz = sente == 0; /* Indicate whether this bot goes first */
 	player_send_packet(&start_packet, &game->players[0]);
-	start_packet.valz = !sente; /* Indicate that this bot goes first */
+	start_packet.valz = !sente; /* Indicate whether this bot goes first */
 	player_send_packet(&start_packet, &game->players[1]);
 	game->turn = sente;
 }
@@ -46,12 +46,16 @@ void game_destroy(game_t *game) {
 	player_destroy(&game->players[1]);
 }
 
-int _game_handle_ppacket(game_t *game, const packet_t *packet) {
+int _game_handle_ppacket(game_t *game, player_t *player, const packet_t *packet, int hand[2]) {
 	switch (packet->type) {
 		case pt_place:
-			return droptile(game->map, packet->valy, packet->valx);
+			if (hand[packet->valx] <= 0)
+				return -1;
+			hand[packet->valx]--;
+			player_add(player, hand);
+			return droptile(game->map, packet->valy, player->colors[packet->valx]);
 		case pt_rot:
-			return gridrotate(game->map, (unsigned int) packet->valx);
+			return gridrotate(&game->map, (unsigned int) packet->valx);
 		default:
 			return -1;
 	}
@@ -59,16 +63,25 @@ int _game_handle_ppacket(game_t *game, const packet_t *packet) {
 
 void game_tick(game_t *game) {
 	packet_t move;
+	player_t *player;
+	int hand[2];
 	int rc;
 
 	if (game->turn == -1)
 		return;
-	if (player_get_packet(&move, &game->players[game->turn], game->settings.think_time) < 0) {
+	player = &game->players[game->turn];
+	if (player_draw(player, hand) == 0) {
+		fprintf(stdout, "out of tiles\n");
+		game_stop(game, !game->turn);
+		return;
+	}
+	player_send_hand(player, hand);
+	if (player_get_packet(&move, player, game->settings.think_time) < 0) {
 		fprintf(stdout, "no move\n");
 		game_stop(game, !game->turn);
 		return;
 	}
-	rc = _game_handle_ppacket(game, &move);
+	rc = _game_handle_ppacket(game, player, &move, hand);
 	switch (rc) {
 		case 1:
 			fprintf(stdout, "someone won\n");
@@ -79,11 +92,15 @@ void game_tick(game_t *game) {
 			fprintf(stdout, "draw\n");
 			game_stop(game, -1);
 			return;
+		case -1:
+			fprintf(stdout, "did not have tile\n");
 		case 4:
 		case 5:
 			fprintf(stdout, "illegal move\n");
 			game_stop(game, !game->turn);
 			return;
+		default:
+			player_send_packet(&move, &game->players[!game->turn]);
 	}
 	game->turn = !game->turn;
 }

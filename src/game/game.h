@@ -19,7 +19,7 @@ typedef struct game {
 void game_new(game_t *game, const char *sente_exec, const char *gote_exec);
 void game_destroy(game_t *game);
 
-int _game_handle_ppacket(game_t *game, const packet_t *packet);
+int _game_handle_ppacket(game_t *game, player_t *player, const packet_t *packet, int hand[2]);
 
 void game_start(game_t *game, int sente);
 void game_stop(game_t *game, int winner);
