@@ -3,12 +3,9 @@
 int	iswin(hexagon_t *hex, void *color)
 {
 	if (win_row(hex, *(int *)color, 0)
-		|| win_row(hex, *(int *)color, 1)
-			|| win_row(hex, *(int *)color, 2))
-			{
-				printf("won\n");
-				return (1);
-			}
+	 || win_row(hex, *(int *)color, 1)
+	 || win_row(hex, *(int *)color, 2))
+		return (1);
 	return (0);
 }
 
@@ -45,7 +42,7 @@ int	isempty(hexagon_t *hex, void *param)
 
 int	checkboard(hexagon_t *head, ...)
 {
-	static int	colors[2];
+	static int	colors[4];
 	int			ret = 0;
 
 	if (!colors[0])
@@ -54,10 +51,16 @@ int	checkboard(hexagon_t *head, ...)
 		va_start(ap, head);
 		colors[0] = va_arg(ap, int);
 		colors[1] = va_arg(ap, int);
+		colors[2] = va_arg(ap, int);
+		colors[3] = va_arg(ap, int);
 		va_end(ap);
 		return (0);
 	}
-	ret += hexiter(head, iswin, &colors[0]);
-	ret += hexiter(head, iswin, &colors[1]);
+	if (hexiter(head, iswin, &colors[0])
+	||  hexiter(head, iswin, &colors[1]))
+		ret++;
+	if (hexiter(head, iswin, &colors[2])
+	||  hexiter(head, iswin, &colors[3]))
+		ret++;
 	return (ret);
 }
