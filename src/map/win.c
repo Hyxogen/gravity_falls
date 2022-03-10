@@ -43,7 +43,9 @@ int	isempty(hexagon_t *hex, void *param)
 int	checkboard(hexagon_t *head, ...)
 {
 	static int	colors[4];
+	int			color[4] = {};
 	int			ret = 0;
+	int			i;
 
 	if (!colors[0])
 	{
@@ -56,12 +58,22 @@ int	checkboard(hexagon_t *head, ...)
 		va_end(ap);
 		return (0);
 	}
-	if (hexiter(head, iswin, &colors[0])
-	||  hexiter(head, iswin, &colors[1]))
+	for (i = 0; i < 4; i++)
+		if (hexiter(head, iswin, &colors[i]))
+			color[i] = colors[i];
+	if (color[0] || color[1])
 		ret++;
-	if (hexiter(head, iswin, &colors[2])
-	||  hexiter(head, iswin, &colors[3]))
+	if (color[2] || color[3])
 		ret++;
-	printf("%s: ret: %d\n", __func__, ret);
-	return (ret);
+	switch (ret)
+	{
+		case (1):
+			for (i = 0; i < 4; i++)
+				if (color[i])
+					return (color[i]);
+		case (2):
+			return (-1);
+		default:
+			return (0);
+	}
 }

@@ -5,12 +5,15 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-	//	Return meanings:
-	//	1:	"Win: someone won"
-	//	2:	"Draw: both players won"
-	//	3:	"Draw: field is full"
-	//	4:	"Illegal move: column is already full"
-	//	5:	"Illegal move: Tile dropped outside of field"
+/*
+Return meanings:
+	0: Nothing
+	> 0: color which won.
+	-1:	"Both won"
+	-2:	"Draw: field is full"
+	-3:	"Illegal move: column is already full"
+	-4:	"Illegal move: Tile dropped outside of field"
+*/	
 
 #define WINLEN 3
 
