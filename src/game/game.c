@@ -19,7 +19,7 @@ void game_new(game_t *game, const char *sente_exec, const char *gote_exec) {
 	player_new(&game->players[1], gote_exec);
 }
 
-void game_start(game_t *game, int sente) {
+void game_start(game_t *game, int sente, int (*update)()) {
 	packet_t start_packet;
 
 	memset(&start_packet, 0, sizeof(start_packet));
@@ -30,6 +30,7 @@ void game_start(game_t *game, int sente) {
 	player_send_packet(&start_packet, &game->players[0]);
 	player_send_packet(&start_packet, &game->players[1]);
 	game->turn = sente;
+	win_start(&game->window, update);
 }
 
 void game_stop(game_t *game, int winner) {
@@ -42,15 +43,8 @@ void game_stop(game_t *game, int winner) {
 	player_send_packet(&stop_packet, &game->players[0]);
 	stop_packet.valx = winner == -1 ? -1 : winner == 1;
 	player_send_packet(&stop_packet, &game->players[1]);
-	if (winner == -1)
-		fprintf(stdout, "draw\n");
-	else
+	if (winner != -1)
 		fprintf(stdout, "player%d \"%s\" won\n", winner, game->players[winner].exec);
-}
-
-void game_destroy(game_t *game) {
-	player_destroy(&game->players[0]);
-	player_destroy(&game->players[1]);
 }
 
 int _game_handle_ppacket(game_t *game, player_t *player, const packet_t *packet, int hand[2]) {
@@ -79,7 +73,10 @@ void game_tick(game_t *game) {
 	hand[0] = 0;
 	hand[1] = 0;
 	if (game->turn == -1)
+	{
+		game_quit(game);
 		return;
+	}
 	player = &game->players[game->turn];
 	if (player_draw(player, hand) == 0) {
 		game_stop(game, !game->turn);
@@ -93,13 +90,19 @@ void game_tick(game_t *game) {
 	rc = _game_handle_ppacket(game, player, &move, hand);
 	switch (rc) {
 		case -1:
+			fprintf(stdout, "Draw: both players won\n");
+			game_stop(game, -1); 
+			return;
 		case -2:
+			fprintf(stdout, "Draw: full field\n");
 			game_stop(game, -1); 
 			return;
 		case -3:
+			fprintf(stdout, "Player [%d]: Illegal move: column is already full\n", game->turn);
 			game_stop(game, !game->turn);
 			return;
 		case -4:
+			fprintf(stdout, "Player [%d]: Illegal move: Tile dropped outside of field\n", game->turn);
 			game_stop(game, !game->turn);
 			return;
 		case -5:
@@ -121,6 +124,8 @@ void game_tick(game_t *game) {
 void game_quit(game_t *game) {
 	player_destroy(&game->players[0]);
 	player_destroy(&game->players[1]);
+	griddestroy(game->map);
+	exit(EXIT_SUCCESS);
 }
 
 void game_packet_print(game_t *game, const packet_t *packet) {

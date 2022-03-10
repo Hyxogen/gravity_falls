@@ -55,7 +55,6 @@ int		getcolor(int argc, char **argv)
 	{
 		if (c == 'c')
 		{
-			printf("%s\n", argv[optind]);
 			optind--;
 			if (!argv[optind + flag] || *argv[optind + flag] == '-')
 				break ;

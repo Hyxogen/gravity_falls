@@ -8,12 +8,15 @@
 
 /*
 Flags:
+	-c(color): colors to be used. Colors need to be given last
 	-f(bots): first bot (as path, so ./bot1)
 	-g(bots): second bot (as path, so ./bot2)
-	-c(color): colors to be used
 	-s(size): board size, as sidelength
 	-t(tiles): amount of tiles
 	-v(victory): amount of tiles in a row needed to win
+
+	For example:
+	./cluster -f ./bot1 -g ./bot2 -s 10 -t 500 -v 10 -c 3355647 3404031 16724787 16742195
 */
 
 void	opt_init(int argc, char **argv);

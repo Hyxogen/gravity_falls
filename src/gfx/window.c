@@ -52,5 +52,5 @@ int	win_close(window_t *window) {
 
 	game = window->usr_ptr;
 	game_quit(game);
-	exit(EXIT_SUCCESS);
+	return (0);
 }

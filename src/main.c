@@ -27,7 +27,6 @@ int update(void *param) {
 }
 
 int main(int argc, char **argv) {
-	window_t win;
 	game_t game;
 	void *handle;
 	int len;
@@ -48,10 +47,9 @@ int main(int argc, char **argv) {
 	len = getsize(argc, argv);
 	game.map = gridcreate(len);
 	gf_assert(game.map);
-	win_setptr(&win, &game);
+	win_setptr(&game.window, &game);
 	handle = gfx_init();
-	win_new(&win, "Gravity Falls", (len * 2) * HEXAGON_SIZE, (len * 2) * HEXAGON_SIZE + (len * 2) * 2 * HEXAGON_WIDTH, handle);
-	game_start(&game, 0);
-	win_start(&win, update);
+	win_new(&game.window, "Gravity Falls", (len * 2) * HEXAGON_SIZE, (len * 2) * HEXAGON_SIZE + (len * 2) * 2 * HEXAGON_WIDTH, handle);
+	game_start(&game, 0, &update);
 	return EXIT_SUCCESS;
 }
