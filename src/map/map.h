@@ -15,15 +15,11 @@ Return meanings:
 	-4:	"Illegal move: Tile dropped outside of field"
 */	
 
-#define WINLEN 4
-
 typedef struct hexagon_s
 {
 	struct hexagon_s	*sides[6];
 	int					color;
 }						hexagon_t;
-
-void		pgrid(hexagon_t *hex);
 
 	//	hex.c
 hexagon_t	*hexnew(void);
@@ -47,7 +43,7 @@ void		griddestroy(hexagon_t *head);
 int			isfull(hexagon_t *head);
 int			isempty(hexagon_t *hex, void *param);
 int			iswin(hexagon_t *hex, void *color);
-int			win_row(hexagon_t *hex, int color, int side);
+int			win_row(hexagon_t *hex, int color, int side, ...);
 int			checkboard(hexagon_t *head, ...);
 int			checkcolor(hexagon_t *head, void *color);
 
