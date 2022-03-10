@@ -2,16 +2,19 @@
 
 #include "player/player.h"
 #include "util/syscalls.h"
+#include "gfx/gfx.h"
+#include <string.h>
 
 int main(void) {
 	packet_t packet;
 
-	fprintf(stderr, "Hello there\n");
-	gf_read(0, &packet, sizeof(packet));
-	fprintf(stderr, "Thx, here I have something for you\n");
-	sleep(2);
-	fprintf(stderr, "There you go, %zd bytes\n", gf_write(1, &packet, sizeof(packet)));
-	sleep(1);
-	fprintf(stderr, "Kthxbye\n");
+	memset(&packet, 0, sizeof(packet));
+	packet.type = pt_place;
+	packet.valx = COLOR_BLUE;
+	packet.valy = 0;
+	while (1) {
+		gf_write(1, &packet, sizeof(packet));
+		sleep(1);
+	}
 	return (0);
 }

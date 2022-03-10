@@ -3,12 +3,26 @@
 
 #include <unistd.h>
 
+/**
+ * packet types:
+ * init: game is executed but not yet started. valx is the time in miliseconds each bot has max for a move
+ * start: game has started with an empty board, valx is 1 if the player goes first
+ * stop: the game has finished for any reason, valx is 0 if the player lost, 1 if the player won, -1 if it was a draw
+ * place:
+ * 	if sent from server to player, the other player has placed color valx at coordinates (valy,valz)
+ *  if sent from player to server, the player requests the server to place color valx at coordinated (valy,valz)
+ * rot:
+ * 	if sent from server to player, the other player has rotated the gravity of the board to point to valx (can be 0, 1, 2, 3, 4, 5)
+ *  if sent from player to server, the player requests rotate the board to point to valx (can be 0, 1, 2, 3, 4, 5)
+ * quit: request the bot processes to cleanup and exit
+ */
 enum ptype_e {
 	pt_init,
 	pt_start,
 	pt_stop,
-	pt_eplace,
-	pt_erot
+	pt_place,
+	pt_rot,
+	pt_quit,
 };
 
 typedef struct player {
